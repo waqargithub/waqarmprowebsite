@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>Order Processor</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="tools.css" type="text/css" />
+</head>
+<body>
+<script type="text/javascript">
+/* <![CDATA[ */
+document.write("<br><br><br>");
+document.write("<h1>Order Report</h1>");
+document.write("<h2>Thank you for your order!</h2>");
+
+
+var formData = location.search;
+formData = formData.substring(1, formData.length);
+while (formData.indexOf("+") != -1) {
+  formData = formData.replace("+", " ");
+}
+while (formData.indexOf("=") != -1) {
+  formData = formData.replace("=", "&");
+}
+formData = unescape(formData);
+var formArray = formData.split("&");
+document.write("<p>Your order is expected to ship in one business day unless there is an inventory shortage. ");
+document.write("Either way, we will send you a confirmation email with the ship date within one business day. </p>");
+document.write("<h2>Order Summary</h2>");
+
+
+var handToolOrdered = "none" ;
+var powerToolOrdered = "none";
+
+// if hand tool or power tool ordered, identify it
+
+if (formArray[1] != "hand_tools") {
+  switch (formArray[1]) {
+    case "saw":
+      handToolOrdered = "Saw";
+      break;
+    case "hammer":
+      handToolOrdered = "Hammer";
+      break;
+    case "screwdriver":
+      handToolOrdered = "Screwdriver";
+      break;
+    case "wrench":
+      handToolOrdered = "Wrench";
+      break;
+    case "pliers":
+      handToolOrdered = "Pliers";
+      break;
+  }
+}
+if (formArray[3] != "power_tools") {
+   switch (formArray[3]) {
+    case "circularSaw":
+      powerToolOrdered = "Circular Saw";
+      break;
+    case "sabreSaw":
+      powerToolOrdered = "Sabre Saw";
+      break;
+    case "drill":
+      powerToolOrdered = "Drill";
+      break;
+    case "beltSander":
+      powerToolOrdered = "Belt Sander";
+      break;
+    case "tableSaw":
+      powerToolOrdered = "Table Saw";
+      break;
+  }
+}
+
+//identify index for total amount of order
+
+var indexForFirstName = 0;
+for (var i=0; i<formArray.length; i++) {
+  if (formArray[i] == "firstNameBilling") {
+    indexForFirstName=++i;
+    break;
+  }
+}
+
+//Display summary of ordered products and order total
+
+document.write("<table border= 1 px>");
+document.write("<tr>");
+document.write("<th>Item</th>");
+document.write("<th>Amount</th>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>Hand Tool: "+handToolOrdered+"</td>");
+document.write("<td>"+formArray[5]+"</td>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>Power Tool: "+powerToolOrdered+"&nbsp;&nbsp;</td>");
+document.write("<td>"+formArray[7]+"</td>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>Shipping</td>");
+document.write("<td>"+formArray[9]+"</td>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>Total</td>");
+document.write("<td>"+formArray[11]+"</td>");
+document.write("</tr>");
+document.write("</table>");
+
+//Determine indices of fields for billing and shipping address, creditcard
+
+var firstNameBilling = indexForFirstName;
+var lastNameBilling = indexForFirstName + 2;
+var firstNameShipping = indexForFirstName + 4;
+var lastNameShipping = indexForFirstName + 6;
+var addressBilling = indexForFirstName + 8;
+var addressShipping = indexForFirstName + 10;
+var cityBilling = indexForFirstName + 12;
+var stateBilling = indexForFirstName + 14;
+var zipBilling = indexForFirstName + 16;
+var zipExtBilling = indexForFirstName + 18;
+var cityShipping = indexForFirstName + 20;
+var stateShipping = indexForFirstName + 22;
+var zipShipping = indexForFirstName + 24;
+var zipExtShipping = indexForFirstName + 26;
+var cardType = indexForFirstName + 40;
+var last4 = indexForFirstName + 48;
+
+//Identify card type
+
+var creditCard = "";
+   switch (formArray[cardType]) {
+    case "visa":
+      creditCard = "Visa";
+      break;
+    case "mastercard":
+      creditCard = "Mastercard";
+      break;
+    case "americanExpress":
+      creditCard = "American Express";
+      break;
+    case "discover":
+      creditCard = "Discover";
+      break;
+  }
+
+//Display card type and amount charged
+
+document.write("<h3>Amount Charged</h3>");
+document.write(formArray[11]+" charged to "+creditCard+" ending in "+formArray[last4]);
+
+//Display billing and shipping information
+
+document.write("<table>");
+  document.write("<tr>");
+    document.write("<td>");
+      document.write("<h3>Billed To</h3>");
+      document.write("<p>"+formArray[firstNameBilling]+"&nbsp;"+formArray[lastNameBilling]+"<br />");
+      document.write(formArray[addressBilling]+"<br />");
+      document.write(formArray[cityBilling]+", "+formArray[stateBilling]+" "+formArray[zipBilling]);
+      if (formArray[zipExtBilling] != "")
+        document.write("-"+formArray[zipExtBilling]);
+      document.write("<br />");
+    document.write("</td>");
+    document.write("<td>");
+      document.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+    document.write("</td>");
+    document.write("<td>");
+     document.write("<h3>Shipped To</h3>");
+     document.write("<p>"+formArray[firstNameShipping]+"&nbsp;"+formArray[lastNameShipping]+"<br />");
+     document.write(formArray[addressShipping]+"<br />");
+     document.write(formArray[cityShipping]+", "+formArray[stateShipping]+" "+formArray[zipShipping]);
+     if (formArray[zipExtShipping] != "")
+       document.write("-"+formArray[zipExtShipping]);
+     document.write("<br />");
+    document.write("</td>");
+  document.write("</tr>");
+document.write("</table>");
+     
+//Display data-value pairs
+
+document.write("<h2>For Internal Use Only</h2>");
+document.write("<p>The text below is included only for class and grading purposes.</p>");
+
+
+for (var i=0; i < formArray.length; i = i + 2) {
+  document.writeln(i+": "+formArray[i] + "\t" + formArray[i+1] + "<br />");
+}
+/* ]]> */
+</script>
+
+  <!-- external javascript for validation -->  
+  <script type="text/javascript" src="../validation.js">
+  </script>    
+
+</body></html>

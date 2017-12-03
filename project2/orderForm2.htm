@@ -1,0 +1,642 @@
+<!DOCTYPE html >
+<html lang="en" >
+<head>
+  <title>
+    Order Form
+  </title>    
+  <meta charset="utf-8" />
+
+
+ <!-- link tag to an external style sheet. -->
+ 
+  <link rel="stylesheet" href="tools.css" type="text/css">
+ 
+    
+  <script type="text/javascript">
+  /* <![CDATA[ */
+
+var handToolPrice = 20;
+var handToolShipping = 5;
+var powerToolPrice = 30;
+var powerToolShipping = 10;
+
+// Index for document.images[] that show hand or power tools respectively.
+// Before tool selected, general image displayed. When tool selected, general image replaced with image
+// of selected tool.
+var handToolImage = 2;
+var powerToolImage = 1;
+
+var hToolPath = "images/handTools/";
+var pToolPath = "images/powerTools/";  
+var hToolImageArray = new Array ("handTools.jpg", "saw.jpg", "hammer.jpg", "screwdriver.jpg", "wrench.jpg", "pliers.jpg");
+var pToolImageArray = new Array ("powerTools.jpg", "circularSaw.jpg", "sabreSaw.jpg", "drill.jpg", "beltSander.jpg", "tableSaw.jpg");
+
+function calculateToolPrice() {
+   var shipping = 0;
+   var total = 0;
+   var hToolImageArrayIndex = 0;
+   var pToolImageArrayIndex = 0;
+   var imagePath = "";
+   
+   // selectedIndex == 0 means no tool selected. Zero price. Else, add to shipping and to total price.
+   
+   //hand tool
+   if (document.forms[0].handTools.selectedIndex == 0) {
+      document.forms[0].handToolPrice.value="$0.00";      
+   }
+   else {
+     document.forms[0].handToolPrice.value="$"+handToolPrice+".00";
+     shipping += handToolShipping;
+     total += handToolPrice;
+   }
+   
+   //power tool
+   if (document.forms[0].powerTools.selectedIndex == 0) {
+     document.forms[0].powerToolPrice.value="$0.00";
+   }
+   else {
+     document.forms[0].powerToolPrice.value="$"+powerToolPrice+".00";
+     shipping += powerToolShipping;
+     total += powerToolPrice;
+   }
+   
+   //total above is for tools. Add shipping to it.
+   total += shipping;
+   
+   //Update hand tool and power tool image based on tool selected or deselected
+   hToolImageArrayIndex = document.forms[0].handTools.selectedIndex;
+   imagePath = hToolPath+hToolImageArray[hToolImageArrayIndex];
+   document.images[handToolImage].src = imagePath;
+   pToolImageArrayIndex = document.forms[0].powerTools.selectedIndex;
+   imagePath = pToolPath+pToolImageArray[pToolImageArrayIndex];
+   document.images[powerToolImage].src = imagePath;      
+   
+   //shipping == 0 means neither hand tool nor power tool selected. Blank input boxes.
+   //else update display of shipping and total
+   if (shipping == 0) {
+     document.forms[0].handToolPrice.value="";
+     document.forms[0].powerToolPrice.value="";
+     document.forms[0].shipping.value="";
+     document.forms[0].total.value="";
+   }
+   else {
+     document.forms[0].shipping.value="$"+shipping+".00";
+     document.forms[0].total.value="$"+total+".00";
+   }
+ }
+ 
+
+
+  
+
+ function insertSpace(numberOfSpaces) {
+   for (var i=0; i<numberOfSpaces; i++) {
+     document.write("&nbsp;");
+   }
+ }
+ 
+ function checkForNumber(fieldValue) {
+   var numberCheck = isNaN(fieldValue);
+   if (numberCheck==true) {
+      window.alert("You must enter a numerical value!");
+      return false;
+   }
+   else
+     return true;
+ }
+ 
+ function checkNotNumber(fieldValue) {
+    var numberCheck = isNaN(fieldValue);
+    if (numberCheck != true) {
+        window.alert("Please check your entry. It should not include numbers.");
+        return false;
+    }
+    else
+      return true;
+ }
+  
+
+ //If box checked, copy billing info to shipping info
+ function sameShippingInfo() {
+   if (document.forms[0].sameShipping.checked==true) {
+      document.forms[0].firstNameShipping.value=document.forms[0].firstNameBilling.value;
+      document.forms[0].lastNameShipping.value=document.forms[0].lastNameBilling.value;
+      document.forms[0].addressShipping.value=document.forms[0].addressBilling.value;
+      document.forms[0].cityShipping.value=document.forms[0].cityBilling.value;
+      document.forms[0].stateShipping.value=document.forms[0].stateBilling.value;
+      document.forms[0].zipShipping.value=document.forms[0].zipBilling.value;
+   }
+   else {
+     document.forms[0].firstNameShipping.value="";
+     document.forms[0].lastNameShipping.value="";
+     document.forms[0].addressShipping.value="";
+     document.forms[0].cityShipping.value="";
+     document.forms[0].stateShipping.value="";
+     document.forms[0].zipShipping.value="";
+     document.forms[0].zipExtShipping.value="";        
+   }
+ }
+ 
+ function checkCardExp () {
+ //If both exp month and year have been selected, check to see if the expiration date has not yet passed
+   if ((document.forms[0].expMonth.selectedIndex != 0) && (document.forms[0].expYear.selectedIndex != 0)) {
+     if ((document.forms[0].expMonth.selectedIndex < 11) && (document.forms[0].expYear.selectedIndex == 1)) {
+       window.alert("The card expiration date has already passed.");
+       document.forms[0].expMonth.selectedIndex = 0;
+       document.forms[0].expYear.selectedIndex = 0;
+     }
+   }
+ }
+
+ function confirmSubmit() {
+
+ //Check that at least one product is ordered
+
+   if ((document.forms[0].handTools.selectedIndex == 0) && (document.forms[0].powerTools.selectedIndex == 0)) {
+     window.alert("Please select at least one tool for your order.")
+     return false;
+   }
+
+ //Check that all fields are entered for billing information
+
+   if (document.forms[0].firstNameBilling.value== "") {
+     window.alert("Please enter your first name for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].lastNameBilling.value== "") {
+     window.alert("Please enter your last name for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].addressBilling.value== "") {
+     window.alert("Please enter your address for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].cityBilling.value== "") {
+     window.alert("Please enter your city for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].stateBilling.value== "") {
+     window.alert("Please enter your state for billing informtion.");
+     return false;
+   }
+   
+   //For fields below, also check for correct number of characters
+   if (document.forms[0].stateBilling.value.length<2) {
+     window.alert("Please review your entry for state for billing information. It is less than two letters.");
+     return false;
+   }
+   if (document.forms[0].zipBilling.value== "") {
+     window.alert("Please enter your zip for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].zipBilling.value.length<5) {
+     window.alert("Please review your entry for zip for billing information. It is less than 5 digits.");
+     return false;
+   }
+   if ((document.forms[0].zipExtBilling.value != "") &&(document.forms[0].zipExtBilling.value.length<4)) {
+     window.alert("Please review your entry for zip extension for billing information. It is less than 4 digits.");
+     return false;
+   }
+   
+ //Check that all fields are entered for shipping information
+
+   if (document.forms[0].firstNameShipping.value== "") {
+     window.alert("Please enter your first name for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].lastNameShipping.value== "") {
+     window.alert("Please enter your last name for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].addressShipping.value== "") {
+     window.alert("Please enter your address for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].cityShipping.value== "") {
+     window.alert("Please enter your city for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].stateShipping.value== "") {
+     window.alert("Please enter your state for shipping informtion.");
+     return false;
+   }
+   
+   //For fields below, also check for correct number of characters
+   if (document.forms[0].stateShipping.value.length<2) {
+     window.alert("Please review your entry for state for shipping information. It is less than two letters.");
+     return false;
+   }
+   if (document.forms[0].zipShipping.value== "") {
+     window.alert("Please enter your zip for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].zipShipping.value.length<5) {
+     window.alert("Please review your entry for zip for shipping information. It is less than 5 digits.");
+     return false;
+   }
+   if ((document.forms[0].zipExtShipping.value != "") &&(document.forms[0].zipExtShipping.value.length<4)) {
+     window.alert("Please review your entry for zip extension for shipping information. It is less than 4 digits.");
+     return false;
+   }
+   
+   //Check that phone and fax are entered with correct number of digits  
+   if ((document.forms[0].areaPhone.value.length<3) || (document.forms[0].exchangePhone.value.length<3)
+         || (document.forms[0].phone.value.length<4)) {
+         window.alert("The phone number entry is incomplete or missing a digit. Please review.");
+         return false;
+   }
+   if ((document.forms[0].areaFax.value.length<3) || (document.forms[0].exchangeFax.value.length<3)
+         || (document.forms[0].fax.value.length<4)) {
+           window.alert("The fax number entry is incomplete or missing a digit. Please review.");
+           return false;
+   }  
+   
+   
+   //check that a credit card has been selected 
+   var cardSelected = false;
+     for (var i=0; i<4; ++i) {
+       if (document.forms[0].paymentMethod[i].checked == true) {
+         cardSelected = true;
+         break;
+       }
+     }
+   if (cardSelected != true) {
+     window.alert("Please select the type of credit card to use for payment.");
+     return false;
+   }
+   
+   //Check that a credit card number with correct number of digits has been entered and expiration date entered
+   
+   //If American Express then card has 15 digits (last set 3 digits), else 16 digits (last set 4 digits)
+   
+   var lastSetLength = 0;
+   if (document.forms[0].paymentMethod[2].checked == true)
+      lastSetLength = 3;
+   else
+      lastSetLength = 4;
+   if ((document.forms[0].cardNumberFirst4.value.length<4)
+         || (document.forms[0].cardNumberSecond4.value.length<4) 
+         || (document.forms[0].cardNumberThird4.value.length<4)
+         || (document.forms[0].cardNumberLast4.value.length<lastSetLength)) {
+           window.alert("Please review your entry for credit card number. There appear to be digits missing.");
+           return false;
+   }
+   
+   //Check that expiration date entered
+   if (document.forms[0].expMonth.selectedIndex == 0) {
+     window.alert("Please select the expiration month for your credit card.");
+     return false;
+   }
+   if (document.forms[0].expYear.selectedIndex == 0) {
+     window.alert("Please select the expiration year for your credit card.");
+     return false;
+   }
+ }
+     
+ function confirmReset() {
+   var resetForm = window.confirm("Are you sure you want to reset the form?");
+   return resetForm;
+ }
+     
+
+ /* ]]> */
+ </script>    
+ </head>
+
+<body>
+  <div>
+    <!-- Add lines to make room for header image -->
+    <br>   
+    <br>
+    <br>
+  </div> 
+  <div> 
+  <h1>
+    Purchase Order
+  </h1>
+  <hr>
+  
+  <!-- Display general images -->
+  <div>
+    <img src="images/toolBox.jpg" height="150" width="150" alt="Tool Boxes" style="float: right; padding: 2px;">
+  </div>
+  <div>
+    <img src="images/powerTools.jpg" height="150" width="150" alt="Power Tools" style="float: right; padding: 2px;">
+  </div>
+  <div>
+    <img src="images/handTools.jpg" height="150" width="150" alt="Hand Tools" style="float: right; padding: 2px;">
+  </div>
+ 
+  
+  <!-- Begin form and specify action when submitted. --> 
+  <form action="OrderProcessor2.html" method="get"
+  enctype="application/x-www-form-urlencoded" onsubmit="return confirmSubmit();" onreset="return confirmReset();">
+    <table>
+      <tr>
+       <td>
+        <h2>Products</h2>
+       </td>
+       <td>
+        &nbsp;
+       </td>
+       <td colspan="2">
+       <!-- Creation separate selection list for hand tools and power tools -->
+       <!-- Calculate price any time a change in selection occurs for either tool -->
+        Hand Tools $20.00
+       </td>
+       <td>
+        <select name="handTools" onchange="calculateToolPrice();">
+        <option value="hand_tools">Hand Tools</option>
+        <option value="saw">Saw</option>
+        <option value="hammer">Hammer</option>
+        <option value="screwdriver">Screwdriver</option>
+        <option value="wrench">Wrench</option>
+        <option value="pliers">Pliers</option>
+        </select>
+       </td>
+       <td>&nbsp;</td>
+       <td colspan="2">
+        Power Tools $30.00
+       </td>
+       <td>
+          <select name="powerTools" onchange="calculateToolPrice();">
+           <option value="power_tools">Power Tools</option>
+           <option value="circularSaw">Circular Saw</option>
+           <option value="sabreSaw">Sabre Saw</option>
+           <option value="drill">Drill</option>
+           <option value="beltSander">Belt Sander</option>
+           <option value="tableSaw">Table Saw</option>
+         </select>
+       </td>
+      </tr>
+      <tr>
+        <!-- Display price for each tool and shipping -->
+        <td rowspan="2">
+          <h2>Price</h2>
+        </td>
+        <td rowspan="2">
+          &nbsp;
+        </td>
+        <td style="vertical-align: text-bottom;">
+          Hand Tool Price
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td style="vertical-align: text-bottom;">
+          Power Tool Price
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td style="vertical-align: text-bottom;">
+          Shipping
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td style="vertical-align: text-bottom;">
+          Total
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" name="handToolPrice" size="15">
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          <input type="text" name="powerToolPrice" size="15">
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          <input type="text" name="shipping" size="15">
+        </td>
+        <td>
+          =
+        </td>
+        <td>
+          <input type="text" name="total" size="15">
+        </td>
+      </tr>
+    </table>
+    <hr>
+    
+    <!-- Collect billing and shipping information, phone number, and credit card information -->
+    <table>
+      <tr>
+        <td colspan="3">
+          <h3>
+              Billing Information
+          </h3>
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>
+        <td>
+          <h3>
+            Shipping Information
+          </h3>
+        </td>
+        <td colspan="2">
+          <input type="checkbox" name="sameShipping" onclick="sameShippingInfo();">Same as billing information
+        </td>
+      </tr>
+      <tr>
+        <td>
+          First Name
+        </td>
+        <td colspan="2">
+          Last Name
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          First Name
+        </td>
+        <td colspan="2">
+          Last Name
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" name="firstNameBilling" size="25">
+        </td>
+        <td colspan="2">
+          <input type="text" name="lastNameBilling" size="25">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          <input type="text" name="firstNameShipping" size="25">
+        </td>
+        <td colspan="2">
+          <input type="text" name="lastNameShipping" size="25">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          Address
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td colspan="3">
+          Address
+        </td>
+      </tr>                      
+      <tr>
+        <td colspan="3">
+          <input type="text" name="addressBilling" size="56">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td colspan="3">
+          <input type="text" name="addressShipping" size="56">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          City
+        </td>
+        <td>
+          State
+        </td>
+        <td>
+          Zip
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          City
+        </td>
+        <td>
+          State
+        </td>
+        <td>
+          Zip
+        </td>
+      </tr>                      
+      <tr>
+        <td>
+          <input type="text" name="cityBilling" size="25">
+        </td>
+        <!--Check that numerical entries are numbers, and that entry for state in each address is not a number-->
+        <td>
+          <input type="text" name="stateBilling" size="2" maxlength="2" onblur="checkNotNumber(document.forms[0].stateBilling.value)">
+        </td>
+        <td>
+          <input type="text" name="zipBilling" size="5" maxlength="5" onblur="checkForNumber(document.forms[0].zipBilling.value)">-
+          <input type="text" name="zipExtBilling" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].zipExtBilling.value)">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          <input type="text" name="cityShipping" size="25">
+        </td>
+        <td>
+          <input type="text" name="stateShipping" size="2" maxlength="2" onblur="checkNotNumber(document.forms[0].stateBilling.value)">
+        </td>
+        <td>
+          <input type="text" name="zipShipping" size="5" maxlength="5" onblur="checkForNumber(document.forms[0].zipShipping.value)">-
+          <input type="text" name="zipExtShipping" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].zipExtShipping.value)">                      
+        </td>
+      </tr>
+    </table>
+    <hr>
+    <table>
+      <tr>
+        <td>
+          <p>
+            Phone
+            &nbsp;&nbsp;&nbsp;
+            (<input type="text" name="areaPhone" size="3" maxlength="3" onblur="checkForNumber(document.forms[0].areaPhone.value)">)
+            <input type="text" name="exchangePhone" size="3" maxlength="3" onblur="checkForNumber(document.forms[0].exchangePhone.value)">-
+            <input type="text" name="phone" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].phone.value)">
+          </p>
+        </td>
+        <td>
+          Fax
+            (<input type="text" name="areaFax" size="3" maxlength="3" onblur="checkForNumber(document.forms[0].areaFax.value)">)
+            <input type="text" name="exchangeFax" size="3" maxlength="3" onblur="checkForNumber(document.forms[0].exchangeFax.value)">-
+            <input type="text" name="fax" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].fax.value)">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            Payment Method:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="paymentMethod" value="visa">Visa
+            <script type="text/javascript">
+            insertSpace(9);
+            </script>
+            <input type="radio" name="paymentMethod" value="mastercard">Mastercard
+          </p>
+        </td>
+        <td>
+          <p>
+            <input type="radio" name="paymentMethod" value="americanExpress">American Express
+            <script type="text/javascript">
+            insertSpace(9);
+            </script>
+            <input type="radio" name="paymentMethod" value="discover">Discover
+           </p>  
+        </td>
+      </tr>
+      <tr>
+        <td>Credit Card Number:&nbsp; 
+          <input type="text" name="cardNumberFirst4" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].cardNumberFirst4.value)">-
+          <input type="text" name="cardNumberSecond4" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].cardNumberSecond4.value)">-
+          <input type="text" name="cardNumberThird4" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].cardNumberThird4.value)">-
+          <input type="text" name="cardNumberLast4" size="4" maxlength="4" onblur="checkForNumber(document.forms[0].cardNumberLast4.value)">
+        </td>
+        <td>&nbsp;Expiration Month: 
+          <select name="expMonth" onchange="checkCardExp();">
+            <option value="month">Month</option>
+            <option value="jan">Jan</option>
+            <option value="feb">Feb</option>
+            <option value="mar">Mar</option>
+            <option value="apr">Apr</option>
+            <option value="may">May</option>
+            <option value="jun">Jun</option>
+            <option value="jul">Jul</option>
+            <option value="aug">Aug</option>
+            <option value="sep">Sep</option>
+            <option value="oct">Oct</option>
+            <option value="nov">Nov</option>
+            <option value="dec">Dec</option>
+          </select>
+          &nbsp;
+          Expiration Year: 
+          <select name="expYear" onchange="checkCardExp();">
+            <option value="year">Year</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <p><input type="submit" value="Place Order">&nbsp;
+    <input type="reset"></p>
+  </form>
+  <br>
+  <br>
+  <!-- external javascript for validation -->  
+  <script type="text/javascript" src="../validation2.js">
+  </script>    
+
+  </div>
+</body>
+</html>

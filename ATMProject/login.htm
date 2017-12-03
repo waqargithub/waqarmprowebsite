@@ -1,0 +1,111 @@
+<!DOCTYPE html >
+<html lang="en" >
+    <head>
+        <title>
+          Express Currency Welcome 
+        </title>    
+        <meta charset="utf-8" />
+
+
+        <!-- This is where your link tag goes when linking to an external style sheet. -->
+         <!-- This is where your link tag goes when linking to an external style sheet. -->
+        <link rel="stylesheet" href="currencyConversion.css" type="text/css">
+            
+        <style>
+            body {background-image: none;}
+        </style>
+ 
+        <!--This is the format you will use when entering JavaScript -->
+        
+        <script type="text/javascript" src="jsFiles/tomorrow.js">
+        </script>
+        <script type="text/javascript" src="jsFiles/defineArrayOfMonths.js">
+        </script>
+       
+
+        <!--This is the format you will use when entering JavaScript -->    
+        <script type="text/javascript">
+        /* <![CDATA[ */
+        document.write("<h2>");
+        document.write("Welcome! Today's date is ");
+        document.write(months[dateToday.getMonth()]+"&nbsp;"+dateToday.getDate()+","+"&nbsp;"+dateToday.getFullYear()+". ");
+        document.write("All transacations will be effective ");
+        document.write(months[dateTomorrow.getMonth()]+"&nbsp;"+dateTomorrow.getDate()+","+"&nbsp;"+dateTomorrow.getFullYear()+".");
+        document.write("</h2>");
+        
+        var atmImage = new Image();
+        atmImage.src = "images/atmImage.jpg";
+        var mapImage = new Image();
+        mapImage.src = "images/mapImage.jpg";
+        
+        function toggleImage() {
+            if (document.getElementById("welcomeImage").src == atmImage.src) {
+                document.getElementById("welcomeImage").src = mapImage.src;
+                document.getElementById("textImageLink").innerHTML = "See the site"
+            }
+            else {
+                document.getElementById("welcomeImage").src = atmImage.src;
+                document.getElementById("textImageLink").innerHTML = "See nearest location"
+            }
+        }
+        
+        var defaultUsername = "Enter Username";
+        
+        function checkLogin() {
+            if (document.forms[0].username.value == defaultUsername) {
+                window.alert("Please enter a username");
+                document.forms[0].username.focus();
+                inputFocus(document.forms[0].username, defaultUsername);
+                return false;
+            }
+            return true;
+        }
+        
+        function inputFocus(input, defaultInputValue) {
+            if (input.value == defaultInputValue) {
+                input.style.color = "#000";
+                input.value = "";
+            }
+        }
+        
+        function inputBlur(input, defaultInputValue) {
+            if (input.value == "") {
+                input.style.color = "#888";
+                input.value = defaultInputValue;
+            }
+        }
+        
+        
+        
+        /* ]]> */
+        </script>
+
+    
+    
+    </head>
+
+    <body> 
+        <div> 
+            <!-- Your HTML here -->
+            <hr>
+            <form action="currency.htm" method="get" onsubmit="return checkLogin();">
+                <br>
+                Username<br>
+                <input type="text" name="username" style="color:GRAY;" value="Enter Username"
+                       onfocus="inputFocus(this, 'Enter Username');" onblur="inputBlur(this, 'Enter Username');">
+                <br>
+                <p><input type="submit" value="Money Exchange"></p>
+            
+            </form>  
+            
+            <a href="#" id="textImageLink" onclick="toggleImage(); return false;">See nearest location</a>
+            <br>
+            <a href="#" id="picImageLink" onclick="toggleImage(); return false;"><img src="images/atmImage.jpg" id="welcomeImage" alt="alternating image of ATM and map of nearest location"></a>
+            
+            <!-- external javascript for validation -->  
+            <script type="text/javascript" src="../../validation.js">
+            </script>    
+
+        </div>
+    </body>
+</html>

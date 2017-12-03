@@ -1,0 +1,940 @@
+<!DOCTYPE html >
+<html lang="en" >
+<head>
+  <title>
+    Order Form
+  </title>    
+  <meta charset="utf-8" />
+
+
+ <!-- link tag to an external style sheet. -->
+ 
+  <link rel="stylesheet" href="bestpriceblinds.css" type="text/css">
+ 
+<script type="text/javascript" src="javascripts/returnMinWidthArray.js">
+</script>
+
+<script type="text/javascript" src="javascripts/returnMaxWidthArray.js">
+</script>
+
+<script type="text/javascript" src="javascripts/returnMinHeightArray.js">
+</script>
+
+<script type="text/javascript" src="javascripts/returnMaxHeightArray.js">
+</script>          
+ 
+<script type="text/javascript" src="pricescripts/returnGridWidths.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/returnGridHeights.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/findPricingIndex.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/returnPricePerSqFtArray.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/calculatePriceGrid.js">
+</script>
+
+<script type="text/javascript" src="javascripts/returnWindowTreatmentImagesArray.js">
+</script>
+
+<script type="text/javascript" src="javascripts/returnWindowTreatmentTypesArray.js">
+</script>
+
+  <script type="text/javascript">
+  /* <![CDATA[ */
+
+var windowTreatmentTypeIndex = -1;
+//var windowTreatmentTypeIndex = 0;
+
+//Since windowTreatmentSelect.selectedIndex is 0 for default, wood blind has index of 1. Must substract 1 to get wood blind index of 0
+//for windowTreatmentTypeIndex
+
+function getWindowTreatmentTypeIndex(thisObject) {
+  var windowTreatmentTypeIndex = thisObject.selectedIndex - 1;
+  return windowTreatmentTypeIndex;
+}
+
+//Generic check measurement function to check width and height are numbers, and within min and max values.
+//First, check that a window treatment has been selected since min and max vary with type of window treatment.
+
+
+function checkMeasurement(thisObject, windowTreatmentTypeIndex, minMeasurementArray, maxMeasurementArray) {
+  if (windowTreatmentTypeIndex < 0) {
+    window.alert("Please select a window treatment first.");
+  }
+  else {
+  
+//min and max of different types of window treatments stored in centrally defined arrays
+  
+   var minMeasurement = minMeasurementArray[windowTreatmentTypeIndex];
+   var maxMeasurement = maxMeasurementArray[windowTreatmentTypeIndex];
+   var numericEntry = false;
+   numericEntry = /[\d]/.test(thisObject.value);
+   if (numericEntry != true) {
+     window.alert("Your entry contains non-numeric characters. Please enter again.");
+     thisObject.value = "";
+   }
+   else {
+     if (thisObject.value < minMeasurement) {
+       window.alert("The "+thisObject.name+" you entered is less than the minimum "+thisObject.name+" for the selected product. Please check ordering guidelines");
+       thisObject.value = ""
+     }
+     if (thisObject.value > maxMeasurement) {
+       window.alert("The measurement you entered is greater than the maximum measurement for the selected product. Please check ordering guidelines");
+       thisObject.value = ""
+     }
+   }
+  }
+ }
+
+function checkWidth(thisObject, windowTreatmentTypeIndex) {
+  var minWidthArray = returnMinWidthArray();
+  var maxWidthArray = returnMaxWidthArray();
+//  var windowTreatmentTypeIndex = document.forms[0].windowTreatmentSelect.selectedIndex) - 1;
+  if (windowTreatmentTypeIndex < 0)
+    window.alert("Please select a window treatment first.");
+  else
+    checkMeasurement(thisObject, windowTreatmentTypeIndex, minWidthArray, maxWidthArray);
+ }
+ 
+ function checkHeight(thisObject, windowTreatmentTypeIndex) {
+//  var windowTreatmentTypeIndex = (document.forms[0].windowTreatmentSelect.selectedIndex) - 1;
+  var minHeightArray = returnMinHeightArray();
+  var maxHeightArray = returnMaxHeightArray();
+  if (windowTreatmentTypeIndex < 0)
+    window.alert("Please select a window treatment first.");
+  else
+    checkMeasurement(thisObject, windowTreatmentTypeIndex, minHeightArray, maxHeightArray);
+}
+ 
+ function updateTotal(windowTreatmentTypeIndex) {
+   var windowTreatmentPrice = 0;
+   var options = 0;
+   var shipping = 0;
+   var total = 0;
+
+//   window.alert("Entered update total. "+windowTreatmentTypeIndex);
+   
+   // selectedIndex == 0 means no treatment selected. Zero price, and, if treatment deselected, zero total and shipping 
+   // Else, caculate cost of window treatment, options, shipping
+
+   //if deselected, or, in other words, if (document.forms[0].windowTreatmentSelect.selectedIndex == 0)
+
+     if (windowTreatmentTypeIndex == -1) {
+       windowTreatmentPrice = 0;
+       options = 0;
+       shipping = 0;
+       total = 0;
+       document.forms[0].windowTreatmentPrice.value="";
+       document.forms[0].options.value="";
+       document.forms[0].shipping.value="";
+       document.forms[0].total.value="";
+       window.alert("No window treatment selected and no total to update.");              
+     }
+   else {
+ 
+
+ // Check that a value has been entered for the integer portion of width, height
+
+     var widthToUse = document.forms[0].width.value;
+     var heightToUse = document.forms[0].height.value;     
+
+     if (widthToUse == 0)
+      window.alert("Please enter a value for width. Check measurement guidelines if necessary.");
+     if (heightToUse == 0)
+      window.alert("Please enter a value for height. Check measurement guidelines if necessary.");      
+
+ // if width or height measurements have a fraction, round up for pricing.
+
+     if ((widthToUse != 0) && (heightToUse != 0))
+     { 
+      if (document.forms[0].widthFraction.selectedIndex != 0)
+        widthToUse++;
+      if (document.forms[0].heightFraction.selectedIndex != 0)
+        heightToUse++;
+     
+
+// calculate and display the different components of price
+
+     windowTreatmentPrice = calculateWindowTreatmentPrice(windowTreatmentTypeIndex, widthToUse, heightToUse);
+     options = calculateOptions(windowTreatmentTypeIndex, windowTreatmentPrice);
+     shipping = calculateShipping(widthToUse);
+     total = windowTreatmentPrice + options + shipping;
+     document.forms[0].windowTreatmentPrice.value="$"+windowTreatmentPrice.toFixed(2);
+     document.forms[0].options.value = "$"+options.toFixed(2);
+     document.forms[0].shipping.value="$"+shipping.toFixed(2);
+     document.forms[0].total.value="$"+total.toFixed(2);
+     window.alert("Total order amount including shipping and options is $"+total.toFixed(2));     
+     }
+   }
+ }
+ 
+  function calculateWindowTreatmentPrice(windowTreatmentTypeIndex, measuredWidth, measuredHeight) {
+//    window.alert("Entered calWinTreatmentPrice "+windowTreatmentTypeIndex+" "+measuredWidth);
+
+
+//Compare measurement against pricing threshholds for width and height to determine which threshholds to use
+//The threshholds are in gridWidthds and gridHeights
+
+   var gridWidths = returnGridWidths();
+   var gridHeights = returnGridHeights();
+   
+//window.alert("gridWidth1: "+gridWidths[1]+" "+gridHeights[1]+" "+measuredWidth);
+
+
+   var pricingWidthIndex = findPricingIndex(measuredWidth, gridWidths); 
+   var pricingHeightIndex = findPricingIndex(measuredHeight, gridHeights);  
+
+//window.alert(pricingWidthIndex);
+//window.alert(pricingHeightIndex);
+
+//While pricing is represented in 2 dimensions on pricingInformation.htm, price grid is treated as 1-D array.
+//Determine index for 1-D array from row and column info
+
+   var combinedPricingIndex = (gridWidths.length)*pricingHeightIndex+pricingWidthIndex;
+
+// Must construct pricing grid
+
+   var pricePerSqFtArray = returnPricePerSqFtArray();
+   var pricePerSqFtToUse = pricePerSqFtArray[windowTreatmentTypeIndex];
+   var priceGridToUse = calculatePriceGrid(pricePerSqFtToUse, gridWidths, gridHeights);
+   var price = priceGridToUse[combinedPricingIndex];
+   return price;
+  }
+
+ function calculateOptions(windowTreatmentTypeIndex, windowTreatmentPrice) {
+   var optionsPrice = 0;
+   var routlessSlatIndex = 1;
+      
+   //Add 10% if routless slats option is chosen. The check for windowTreatmentTypeIndex is for future expansion to include shades.
+   
+   
+   if ((document.forms[0].optionsCheckBox[1].checked == true) && (windowTreatmentTypeIndex < 3))
+    optionsPrice = 0.1 * windowTreatmentPrice;
+   else
+    optionsPrice = 0;
+   return optionsPrice;
+ }
+
+//Size of shipping package determined by width of blind. Determine shipping based on width.
+
+ function calculateShipping(width) {
+   var shippingCost = 0;
+   if (width == 0)
+    return shippingCost;
+   else {
+    if (width < 60)
+      shippingCost = 15;
+    else
+      if (width > 96)
+        shippingCost = 150;
+      else
+        shippingCost = 25;
+    }
+   return shippingCost;
+ }
+ 
+  //Update image to show  product selected
+ 
+ function updateImage() {
+   var imageFolderPath = "images/";  
+   var imageArray = new Array ("bareWindow.jpg", "wood.jpg", "fauxwood.jpg", "aluminum.jpg");
+
+//  For future expansion, define imageArray in external file.
+//   var imageArray = new Array(4);
+//   imageArray = returnwindowTreatmentImagesArray();
+
+   var imageArrayIndex = 0;
+   
+     //Update image based on window treatement selected or deselected
+   imageArrayIndex = document.forms[0].windowTreatmentSelect.selectedIndex;
+   var imagePath = imageFolderPath+imageArray[imageArrayIndex];
+   document.images[0].src = imagePath;
+ }
+
+//Color choices displayed via script in an attempt to devise way to dynamically change color names based on product.
+//This feature not implemented in current iteration. Can move colorSelect to body.
+
+ function displayColorChoices(windowTreatmentTypeIndex) {
+  var color0 = "white";
+  var color1 = "alabaster";
+  var color2 = "mediumTone";
+  var color3 = "darkTone";
+  document.write("<select name='colorSelect' onchange='updateColorSwatch(windowTreatmentTypeIndex)'>");
+  document.write("<option value='chooseColor'>Choose Color</option>");
+  document.write("<option value='"+color0+"'>White</option>");
+  document.write("<option value='"+color1+"'>Off White</option>");
+  document.write("<option value='"+color2+"'>Medium Tone</option>");
+  document.write("<option value='"+color3+"'>Dark Tone</option>");    
+ }
+ 
+//Update color swatches based on product selected. 
+
+ function updateColorSwatch(windowTreatmentTypeIndex) {
+   var swatchFolderPath = "images/colorSwatches/";
+   var swatchArray = new Array(5);  
+   var woodSwatchArray = new Array ("defaultSwatch.jpg", "woodWhite.jpg", "woodAlabaster.jpg", "woodPecan.jpg", "woodMahogany.jpg");
+   var fauxwoodSwatchArray = new Array ("defaultSwatch.jpg", "fauxwoodWhite.jpg", "fauxwoodOyster.jpg", "fauxwoodOak.jpg", "fauxwoodMahogany.jpg");
+   var aluminumSwatchArray = new Array ("defaultSwatch.jpg", "aluminumSnow.jpg", "aluminumAlabaster.jpg", "aluminumBeige.jpg", "aluminumChocolate.jpg");
+
+   var swatchArrayIndex = document.forms[0].colorSelect.selectedIndex;
+
+     //Choose array of swatch image names based on window treatment type
+
+    switch (windowTreatmentTypeIndex) {
+      case 0:
+        swatchArray = woodSwatchArray;
+        break;
+      case 1:
+        swatchArray = fauxwoodSwatchArray;
+        break;
+      case 2:
+        swatchArray = aluminumSwatchArray;
+        break;
+    }
+    
+        //Construct image path to swatch image to display.
+    
+    var imagePath = swatchFolderPath+swatchArray[swatchArrayIndex];
+    document.images[1].src = imagePath;
+    
+    //if color or window treatment deselected, return to default swatch and reduce opacity
+    
+    if (swatchArrayIndex == 0)
+      document.images[1].style.opacity = 0.1;
+    else
+      document.images[1].style.opacity = 1;
+ }
+
+ function insertSpace(numberOfSpaces) {
+   for (var i=0; i<numberOfSpaces; i++) {
+     document.write("&nbsp;");
+   }
+ }
+
+//redundant and replaced by checkEntry() below. May be removed.
+ 
+ function checkForNumber(fieldValue) {
+   var numberCheck = isNaN(fieldValue);
+   if (numberCheck==true) {
+      window.alert("You must enter a numerical value!");
+      return false;
+   }
+   else
+     return true;
+ }
+
+//Generic function to check the number and type of characters of an entry into a text field.
+//Max no of characters checked by using maxlength field.
+
+ function checkEntry(thisObject, minNoOfCharacters, typeOfCharacters) {
+  var validCharacters = false;
+  if (thisObject.value.length < minNoOfCharacters) {
+    window.alert("Your entry did not have the minimum of "+minNoOfCharacters+" required characters. Please review and enter again.");
+    thisObject.value = "";
+    thisObject.focus();
+  }
+  else {
+    if (typeOfCharacters == "alphabetic") {
+      validCharacters = /[\D]/.test(thisObject.value);
+      if (validCharacters != true) {
+        window.alert("Your entry contained non-alphabetic characters. Please review and enter again.");
+        thisObject.value = "";
+        thisObject.focus();
+      }
+    }
+    else if (typeOfCharacters == "numeric") {
+      validCharacters = /[\d]/.test(thisObject.value);
+      if (validCharacters == false) {
+        window.alert("Your entry contained non-numeric characters. Please review and enter again.");      
+        thisObject.value = "";
+        thisObject.focus();
+      }
+    }
+  }
+ }      
+  
+
+ //If box checked, copy billing info to shipping info
+ function sameShippingInfo() {
+   if (document.forms[0].sameShipping.checked==true) {
+      document.forms[0].firstNameShipping.value=document.forms[0].firstNameBilling.value;
+      document.forms[0].lastNameShipping.value=document.forms[0].lastNameBilling.value;
+      document.forms[0].addressShipping.value=document.forms[0].addressBilling.value;
+      document.forms[0].cityShipping.value=document.forms[0].cityBilling.value;
+      document.forms[0].stateShipping.value=document.forms[0].stateBilling.value;
+      document.forms[0].zipShipping.value=document.forms[0].zipBilling.value;
+   }
+   else {
+     document.forms[0].firstNameShipping.value="";
+     document.forms[0].lastNameShipping.value="";
+     document.forms[0].addressShipping.value="";
+     document.forms[0].cityShipping.value="";
+     document.forms[0].stateShipping.value="";
+     document.forms[0].zipShipping.value="";
+     document.forms[0].zipExtShipping.value="";        
+   }
+ }
+ 
+ function checkCardExp () {
+ //If both exp month and year have been selected, check to see if the expiration date has not yet passed
+ //Currently written for December 2012, due date of final project. In future, change so date not hard entry.
+   if ((document.forms[0].expMonth.selectedIndex != 0) && (document.forms[0].expYear.selectedIndex != 0)) {
+     if ((document.forms[0].expMonth.selectedIndex < 12) && (document.forms[0].expYear.selectedIndex == 1)) {
+       window.alert("The card expiration date has already passed (done for Dec 2012).");
+       document.forms[0].expMonth.selectedIndex = 0;
+       document.forms[0].expYear.selectedIndex = 0;
+     }
+   }
+ }
+ 
+ function validateEmail(formObject) {
+  var email = formObject.value;
+  var emailCheck = /^[_\w\-]+(\.[_\w\-]+)*@[\w\-]+(\.[\w\-]+)*(\.[\D]{2,3})$/;
+  /*    if (email.search("@") ==  -1 || email.lastIndexOf(".") == -1) {*/
+  //    if (/@/.test(email) == false || /\....$/.test(email) == false) {           
+  if (emailCheck.test(email) == false)
+     window.alert("The email address you entered does not appear to be valid.");
+  else
+    formObject.value = email.toLowerCase();
+ } 
+
+ function confirmSubmit() {
+
+ //Check that at least one product is ordered
+
+   if (document.forms[0].windowTreatmentSelect.selectedIndex == 0) {
+     window.alert("Please select the window treatment you wish to order.")
+     return false;
+   }
+   if (document.forms[0].colorSelect.selectedIndex == 0) {
+     window.alert("Please select a color for your window treatement.");
+     return false;
+   }
+   if (document.forms[0].width.value == "") {
+     window.alert("Please enter the width of your window treatment.")
+     return false;
+   }
+   if (document.forms[0].height.value == "") {
+     window.alert("Please enter the height of your window treatment.")
+     return false;   
+   }
+   if (document.forms[0].mountSelect.selectedIndex == 0) {
+     window.alert("Please specify the mount for your window treatment.")
+     return false;
+   }
+
+  //update Total in case user did not click on update before hitting submit
+   if (document.forms[0].total.value == 0)
+    updateTotal(windowTreatmentTypeIndex);
+
+
+ //Check that all fields are entered for billing information
+
+   if (document.forms[0].firstNameBilling.value== "") {
+     window.alert("Please enter your first name for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].lastNameBilling.value== "") {
+     window.alert("Please enter your last name for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].addressBilling.value== "") {
+     window.alert("Please enter your address for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].cityBilling.value== "") {
+     window.alert("Please enter your city for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].stateBilling.value== "") {
+     window.alert("Please enter your state for billing informtion.");
+     return false;
+   }
+   if (document.forms[0].zipBilling.value== "") {
+     window.alert("Please enter your zip for billing informtion.");
+     return false;
+   }
+   
+ //Check that all fields are entered for shipping information
+
+   if (document.forms[0].firstNameShipping.value== "") {
+     window.alert("Please enter your first name for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].lastNameShipping.value== "") {
+     window.alert("Please enter your last name for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].addressShipping.value== "") {
+     window.alert("Please enter your address for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].cityShipping.value== "") {
+     window.alert("Please enter your city for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].stateShipping.value== "") {
+     window.alert("Please enter your state for shipping informtion.");
+     return false;
+   }
+   if (document.forms[0].zipShipping.value== "") {
+     window.alert("Please enter your zip for shipping informtion.");
+     return false;
+   }
+   
+   //Check that phone and email are entered  
+   if ((document.forms[0].areaPhone.value=="") || (document.forms[0].exchangePhone.value=="")
+         || (document.forms[0].phone.value=="")) {
+         window.alert("The phone number entry is incomplete. Please review.");
+         return false;
+   }
+   if (document.forms[0].userEmail.value=="") {
+           window.alert("Please enter your email address.");
+           return false;
+   }  
+   
+   
+   //check that a credit card has been selected 
+   var cardSelected = false;
+     for (var i=0; i<4; ++i) {
+       if (document.forms[0].paymentMethod[i].checked == true) {
+         cardSelected = true;
+         break;
+       }
+     }
+   if (cardSelected != true) {
+     window.alert("Please select the type of credit card to use for payment.");
+     return false;
+   }
+   
+   //Check that a credit card number has been entered and expiration date entered
+   if ((document.forms[0].cardNumberFirst4.value=="")
+         || (document.forms[0].cardNumberSecond4.value=="") 
+         || (document.forms[0].cardNumberThird4.value=="")
+         || (document.forms[0].cardNumberLast4.value=="")) {
+           window.alert("Please review your entry for credit card number.");
+           return false;
+   }
+   if (document.forms[0].expMonth.selectedIndex == 0) {
+     window.alert("Please select the expiration month for your credit card.");
+     return false;
+   }
+   if (document.forms[0].expYear.selectedIndex == 0) {
+     window.alert("Please select the expiration year for your credit card.");
+     return false;
+   }
+ }
+     
+ function confirmReset() {
+   var resetForm = window.confirm("Are you sure you want to reset the form?");
+   return resetForm;
+ }
+     
+
+ /* ]]> */
+ </script>    
+ </head>
+
+<body>
+  <div>
+    <!-- Add lines to make room for header image -->
+    <br>   
+    <br>
+    <br>
+    <br>
+  </div> 
+  <div> 
+  <script type="text/javascript" src="javascripts/linksToPages.js">
+  </script>
+  <hr>
+  <div>
+    <img src="images/bareWindow.jpg" height="250" width="250" alt="Bare window" style="float: right;">
+  </div>
+  
+  <!-- Begin form and specify action when submitted. --> 
+  <form action="OrderProcessor.html" method="get"
+  enctype="application/x-www-form-urlencoded" onsubmit="return confirmSubmit();" onreset="return confirmReset();">
+    <table>
+      <tr>
+       <td>
+        <h2>Product</h2>
+       </td>
+       <td colspan="3">
+        <select name="windowTreatmentSelect" onchange="updateImage(); windowTreatmentTypeIndex = getWindowTreatmentTypeIndex(this);">
+        <option value="windowTreatment">Select your Window Treatment</option>
+        <option value="woodBlind">Wood Blind</option>
+        <option value="fauxwoodBlind">Fauxwood Blind</option>
+        <option value="aluminumBlind">Aluminum Blind</option>
+        </select>
+       </td>
+       <td>
+        <h2>Color</h2>
+       </td>       
+       <td>
+        <script type="text/javascript">
+        displayColorChoices(windowTreatmentTypeIndex);
+        </script>
+       </td>
+       <td>
+        &nbsp;
+       </td>
+       <td>
+        <img src="images/colorSwatches/defaultSwatch.jpg" height="50" width="50" alt="wood white" class="colorSwatchImage">
+       </td>
+      </tr>
+      <tr>
+       <td rowspan="2">
+        <h2>Size</h2>
+       </td>
+       <td colspan="2">
+        Enter Width
+       </td>
+       <td colspan="2">
+        Enter Height
+       </td>
+       <td colspan="3">
+        Specify Mount
+       </td>       
+      </tr>
+      <tr>
+       <td colspan="2">
+          <input type="text" name="width" value="0" size="2" maxlength="2" onchange="checkWidth(this, windowTreatmentTypeIndex)"><select name="widthFraction">
+           <option value="zero">0/8</option>          
+           <option value="oneEighth">1/8</option>
+           <option value="oneFourth">1/4</option>
+           <option value="threeEighths">3/8</option>
+           <option value="oneHalf">1/2</option>
+           <option value="fiveEighths">5/8</option>
+           <option value="threeFourths">3/4</option>
+           <option value="sevenEigths">7/8</option>
+         </select>
+       </td>
+       <td colspan="2">
+          <input type="text" name="height" value="0" size="2" maxlength="2" onchange="checkHeight(this, windowTreatmentTypeIndex)"><select name="heightFraction">
+           <option value="zero">0/8</option>          
+           <option value="oneEighth">1/8</option>
+           <option value="oneFourth">1/4</option>
+           <option value="threeEighths">3/8</option>
+           <option value="oneHalf">1/2</option>
+           <option value="fiveEighths">5/8</option>
+           <option value="threeFourths">3/4</option>
+           <option value="sevenEigths">7/8</option>
+         </select>
+       </td>
+       <td colspan="3">
+        <select name="mountSelect">
+          <option value = "mount"></option>
+          <option value = "inside">Inside window</option>
+          <option value = "outside">Outside window</option>
+        </select>
+       </td>
+      </tr>
+      <tr>
+        <td>
+          &nbsp;
+        </td>
+        <td colspan="6">
+          <p><a href="measuringGuidelines.htm">Measuring Guidelines</a></p>
+        </td>
+      </tr>
+         
+      <tr>
+        <td>
+          <h2>Options</h2>
+        </td>
+        <td colspan="2">
+            <input type="checkbox" name="optionsCheckBox" value="decorativeValance">Decorative Valance
+        </td>
+        <td colspan="3">
+            <input type="checkbox" name="optionsCheckBox" value="routlessSlats">Routless Slats (adds 10%)<br>
+        </td>
+        <td colspan="2">
+          <input type="button" name="updateTotalButton" value="Update Total" onclick="updateTotal(windowTreatmentTypeIndex)">
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2">
+          <h2>Price</h2>
+        </td>
+        <td colspan="2" style="vertical-align: text-bottom;">
+          Window Treatment
+        </td>
+        <td colspan="2" style="vertical-align: text-bottom;">
+          Options
+        </td>
+        <td colspan="2" style="vertical-align: text-bottom;">
+          Shipping
+        </td>
+        <td style="vertical-align: text-bottom;">
+          Total
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" name="windowTreatmentPrice" size="15">
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          <input type="text" name="options" size="15">
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          <input type="text" name="shipping" size="15">
+        </td>
+        <td>
+          =
+        </td>
+        <td>
+          <input type="text" name="total" size="15">
+        </td>
+      </tr>
+    </table>
+    <hr>
+   
+    <table>
+      <tr>
+        <td colspan="3">
+          <h3>
+              Billing Information
+          </h3>
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>
+        <td>
+          <h3>
+            Shipping Information
+          </h3>
+        </td>
+        <td colspan="2">
+          <input type="checkbox" name="sameShipping" onclick="sameShippingInfo();">Same as billing information
+        </td>
+      </tr>
+      <tr>
+        <td>
+          First Name
+        </td>
+        <td colspan="2">
+          Last Name
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          First Name
+        </td>
+        <td colspan="2">
+          Last Name
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" name="firstNameBilling" size="25">
+        </td>
+        <td colspan="2">
+          <input type="text" name="lastNameBilling" size="25">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          <input type="text" name="firstNameShipping" size="25">
+        </td>
+        <td colspan="2">
+          <input type="text" name="lastNameShipping" size="25">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          Address
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td colspan="3">
+          Address
+        </td>
+      </tr>                      
+      <tr>
+        <td colspan="3">
+          <input type="text" name="addressBilling" size="56">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td colspan="3">
+          <input type="text" name="addressShipping" size="56">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          City
+        </td>
+        <td>
+          State
+        </td>
+        <td>
+          Zip
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          City
+        </td>
+        <td>
+          State
+        </td>
+        <td>
+          Zip
+        </td>
+      </tr>                      
+      <tr>
+        <td>
+          <input type="text" name="cityBilling" size="25">
+        </td>
+        <td>
+          <input type="text" name="stateBilling" size="2" maxlength="2" onchange="checkEntry(this, 2, 'alphabetic');">
+        </td>
+        <td>
+          <input type="text" name="zipBilling" size="5" maxlength="5"  onchange="checkEntry(this, 5, 'numeric');">-
+          <input type="text" name="zipExtBilling" size="4" maxlength="4"  onchange="checkEntry(this, 4, 'numeric');">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+        <td>
+          <input type="text" name="cityShipping" size="25">
+        </td>
+        <td>
+          <input type="text" name="stateShipping" size="2" maxlength="2" onchange="checkEntry(this, 2, 'alphabetic');">
+        </td>
+        <td>
+          <input type="text" name="zipShipping" size="5" maxlength="5" onchange="checkEntry(this, 5, 'numeric');">-
+          <input type="text" name="zipExtShipping" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">                      
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          Phone
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td colspan="3">
+          Email
+        </td>
+      <tr>
+        <td colspan="3">
+          <p>
+            (<input type="text" name="areaPhone" size="3" maxlength="3" onchange="checkEntry(this, 3, 'numeric');">)
+            <input type="text" name="exchangePhone" size="3" maxlength="3" onchange="checkEntry(this, 3, 'numeric');">-
+            <input type="text" name="phone" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">
+          </p>
+        </td>  
+        <td>
+          &nbsp;
+        </td>
+        <td colspan="3">
+            <input type="email" name="userEmail" size="35" onblur="validateEmail(this)">
+        </td>
+      </tr>
+      </table>
+      <hr>
+      <table>
+      <tr>
+        <td>
+          <p>
+            Payment Method:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="paymentMethod" value="visa">Visa
+            <script type="text/javascript">
+            insertSpace(9);
+            </script>
+            <input type="radio" name="paymentMethod" value="mastercard">Mastercard
+          </p>
+        </td>
+        <td>
+          <p>
+            <input type="radio" name="paymentMethod" value="americanExpress">American Express
+            <script type="text/javascript">
+            insertSpace(9);
+            </script>
+            <input type="radio" name="paymentMethod" value="discover">Discover
+           </p>  
+        </td>
+      </tr>
+      <tr>
+        <td>Credit Card Number:&nbsp; 
+          <input type="text" name="cardNumberFirst4" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">-
+          <input type="text" name="cardNumberSecond4" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">-
+          <input type="text" name="cardNumberThird4" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">-
+          <input type="text" name="cardNumberLast4" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">
+        </td>
+        <td>&nbsp;Expiration Month: 
+          <select name="expMonth" onchange="checkCardExp();">
+            <option value="month">Month</option>
+            <option value="jan">Jan</option>
+            <option value="feb">Feb</option>
+            <option value="mar">Mar</option>
+            <option value="apr">Apr</option>
+            <option value="may">May</option>
+            <option value="jun">Jun</option>
+            <option value="jul">Jul</option>
+            <option value="aug">Aug</option>
+            <option value="sep">Sep</option>
+            <option value="oct">Oct</option>
+            <option value="nov">Nov</option>
+            <option value="dec">Dec</option>
+          </select>
+          &nbsp;
+          Expiration Year: 
+          <select name="expYear" onchange="checkCardExp();">
+            <option value="year">Year</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <p><input type="submit" value="Place Order">&nbsp;
+    <input type="reset"></p>
+  </form>
+  <br>
+  <br>
+  <!-- external javascript for validation -->  
+  <script type="text/javascript" src="../validation.js">
+  </script>    
+
+  </div>
+  <!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9593314; 
+var sc_invisible=1; 
+var sc_security="6a049e27"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/9593314/0/6a049e27/1/"
+alt="website statistics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body>
+</html>

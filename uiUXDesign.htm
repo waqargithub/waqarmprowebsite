@@ -1,0 +1,180 @@
+<!DOCTYPE html >
+<html lang="en" >
+<head>
+    <title>
+      UI and UX Design
+    </title>    
+    <meta charset="utf-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
+
+
+
+ <!-- External style sheets. -->
+ 
+ <link rel="stylesheet" href="css/profProfile.css" type="text/css" />
+ <link rel="stylesheet" href="css/uxSlideshow.css" type="text/css" />
+ 
+
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'>
+</script>
+<script type="text/javascript" src="jsfiles/initialization.js">
+</script>  
+
+     
+
+<script type="text/javascript">
+/* <![CDATA[ */
+
+/* ]]> */
+</script>    
+    
+</head>
+
+<body> 
+ <div>
+<hr>
+<div id="bannerContainer">
+
+</div>
+<hr>
+<br>
+<script type="text/javascript" src="jsfiles/linksToProfPages.js">
+</script>
+<br>
+</div>
+ 
+ <div>
+    <h1>Proposal to Improve Interface and Usability of ACC Website</h1>
+ </div>
+
+<div style='float: left; width: 50%;'>
+    <ul>
+        <li>Use more intuitive terms.</li>
+        <li>Eliminate unnecessary clicks, scrolling.</li>
+        <li>Put more common tasks at top.</li>
+        <li>Don't have user do what can be done programmatically.</li>
+    </ul>
+</div> 
+
+<div class="row">
+  <div class="halfColumn">
+    <div id="slideshowPrompt" style="margin-left: 1em;">Click image for slides.<br><br></div>
+    <img class="halfColPic" src="images/ux/acc/homeAboveFold25percent.png" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+  </div>
+</div>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close cursor" onclick="closeModal()">&times;</span>
+
+    <div class="mySlides">
+      <div class="numbertextUX">1 / 4</div>
+      <img src="images/ux/acc/homeAboveFold.png" class="portraitPicUX">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertextUX">2 / 4</div>
+      <img src="images/ux/acc/homeBelowFold.png" class="portraitPicUX">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertextUX">3 / 4</div>
+      <img src="images/ux/acc/myACC.png"  class="portraitPicUX">
+    </div>
+    
+    <div class="mySlides">
+      <div class="numbertextUX">4 / 4</div>
+      <img src="images/ux/acc/colorMyACC.png"  class="portraitPicUX">
+    </div>
+    
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+    <div id="columnContainer">
+     <div class="caption-container">
+       <div id="caption"></div>
+     </div>
+
+
+     <div class="column">
+       <img class="demo cursor" src="images/ux/acc/homeAboveFold25percent.png" style="width:100%" onclick="currentSlide(1)" alt="Homepage above fold">
+     </div>
+     <div class="column">
+       <img class="demo cursor" src="images/ux/acc/homeBelowFold25percent.png" style="width:100%" onclick="currentSlide(2)" alt="Homepage below fold">
+     </div>
+     <div class="column">
+       <img class="demo cursor" src="images/ux/acc/myACC25percent.png" style="width:100%" onclick="currentSlide(3)" alt="MyACC Page">
+     </div>
+     <div class="column">
+       <img class="demo cursor" src="images/ux/acc/colorMyACC25percent.png" style="width:100%" onclick="currentSlide(4)" alt="MyACC Page in color">
+    </div>
+  </div>
+</div>
+
+<!-- <script type="text/javascript" src="jsfiles/uxslideshow.js"></script>  -->
+<script>
+ function openModal() {
+  document.getElementById('myModal').style.display = "block";
+  document.getElementById('slideshowPrompt').innerHTML = "Scroll up to see the slides.<br><br>";
+  document.getElementById('slideshowPrompt').style.fontWeight = "bold";
+}
+
+function closeModal() {
+  document.getElementById('slideshowPrompt').innerHTML = "Click image for slides.<br><br>";
+  document.getElementById('slideshowPrompt').style.fontWeight = "normal";
+  document.getElementById('myModal').style.display = "none";
+}
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  captionText.innerHTML = dots[slideIndex-1].alt;
+}
+</script>
+
+
+ 
+ 
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9593314; 
+var sc_invisible=1; 
+var sc_security="6a049e27"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/9593314/0/6a049e27/1/"
+alt="website statistics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html >
+<html lang="en" >
+<head>
+    <title>
+      Product Guide
+    </title>    
+    <meta charset="utf-8" />
+ 
+<!-- This is where your link tag goes when linking to an external style sheet. -->
+
+<link rel="stylesheet" href="bestpriceblinds.css" type="text/css">
+ 
+<!--This is the format you will use when entering JavaScript -->    
+
+<script type="text/javascript">
+/* <![CDATA[ */
+
+function printPerformTable()
+{
+var sentence1="This table compares performance of different window treatments. ";
+var sentence2="The columns list type of performance such as control of light, heat. ";
+var sentence3="The rows list the window treatments. ";
+var sentence4="The table data lists a number from 1 to 5 with 5 being the highest performance.";
+document.write("<table summary='sentence1+sentence2+sentence3+sentence4'>");
+document.write('<caption>Wood, Fauxwood, and Aluminum Blinds Comparison. Highest score is 5.</caption>');
+document.write('<tr>');
+document.write('<th id="product" class="rowheading">Product</th>');
+document.write('<th id="lightControl">Light Control</th>');
+document.write('<th id="temperatureControl">Temperature Control</th>');
+document.write('<th id="privacy">Privacy</th>');
+document.write('</tr>');
+//document.write('<thead>');
+//document.write('<tbody>');
+document.write('<tr>');
+document.write('<td headers="product" class="rowheading">Wood Blinds</td>');
+document.write('<td headers="lightControl">4</td>');
+document.write('<td headers="temperatureControl">5</td>');
+document.write('<td headers="privacy">4</td>');
+document.write('</tr>');
+document.write('<tr>');
+document.write('<td headers="product" class="rowheading">Fauxwood Blinds</td>');
+document.write('<td headers="lightControl">3</td>');
+document.write('<td headers="temperatureControl">4</td>');
+document.write('<td headers="privacy">4</td>');
+document.write('</tr>');
+document.write('<tr>');
+document.write('<td headers="product" class="rowheading">Aluminum Blinds</td>');
+document.write('<td headers="lightControl">5</td>');
+document.write('<td headers="temperatureControl">2</td>');
+document.write('<td headers="privacy">5</td>');
+document.write('</tr>');
+document.write('</table>');
+}
+/* ]]> */
+</script> 
+    
+</head>
+
+<body> 
+ <div> 
+<!-- Your XHTML here -->
+<br>
+<br>
+<br>
+<br>
+<h1> Best Price Blinds</h1>
+<script type="text/javascript" src="javascripts/linksToPages.js">
+</script>
+<hr>
+
+<h2>Product Performance Comparison</h2>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+
+printPerformTable();
+
+/* ]]> */
+</script>
+<hr>
+<!-- external javascript for validation -->  
+<script type="text/javascript" src="../validation.js">
+</script>  
+
+</div>
+  </body>
+  </html>

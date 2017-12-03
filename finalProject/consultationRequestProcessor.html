@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>Order Processor</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="bestpriceblinds.css" type="text/css" />
+</head>
+<body>
+<p>
+<br />
+<br />
+<br />
+<br />
+<script type="text/javascript" src="javascripts/linksToPages.js">
+</script>
+</p>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+document.write("<br><br><br>");
+
+var formData = location.search;
+formData = formData.substring(1, formData.length);
+while (formData.indexOf("+") != -1) {
+  formData = formData.replace("+", " ");
+}
+while (formData.indexOf("=") != -1) {
+  formData = formData.replace("=", "&");
+}
+formData = unescape(formData);
+var formArray = formData.split("&");
+document.write("<h3>Request Received!</h3>");
+document.write("<p>Thank you for submitting the request. We look forward to visiting with you! ");
+document.write("Our staff will contact you by "+formArray[23]+" within one business day to schedule a time to meet. </p>");
+document.write("<h3>Request Summary</h3>");
+
+
+
+//Determine indices of first name
+
+var indexForFirstName = 0;
+for (var i=0; i<formArray.length; i++) {
+  if (formArray[i] == "firstName") {
+    indexForFirstName=++i;
+    break;
+  }
+}
+
+var firstName = indexForFirstName;
+var lastName = indexForFirstName + 2;
+var address = indexForFirstName + 4;
+var city = indexForFirstName + 6;
+var state = indexForFirstName + 8;
+var zip = indexForFirstName + 10;
+var zipExt = indexForFirstName + 12;
+
+//Display summary of person submitting request
+
+document.write("<table>");
+  document.write("<tr>");
+    document.write("<td>");
+      document.write("<p>"+formArray[firstName]+"&nbsp;"+formArray[lastName]+"<br />");
+      document.write(formArray[address]+"<br />");
+      document.write(formArray[city]+", "+formArray[state]+" "+formArray[zip]);
+      if (formArray[zipExt] != "")
+        document.write("-"+formArray[zipExt]);
+      document.write("<br />");
+    document.write("</td>");
+  document.write("</tr>");
+  document.write("<tr>");
+    document.write("<td>");
+      document.write("Phone: "+formArray[15]+"-"+formArray[17]+"-"+formArray[19]);
+    document.write("</td>");  
+    document.write("<td>");
+      document.write("Email: "+formArray[21]);
+    document.write("</td>");
+  document.write("</tr>");
+document.write("</table>");
+     
+//Display data-value pairs
+
+document.write("<h3>For Internal Use Only</h3>");
+document.write("<p>The text below is included only for class and grading purposes.</p>");
+
+
+for (var i=0; i < formArray.length; i = i + 2) {
+  document.writeln(i+": "+formArray[i] + "\t" + formArray[i+1] + "<br />");
+}
+/* ]]> */
+</script>
+
+  <!-- external javascript for validation -->  
+  <script type="text/javascript" src="../validation.js">
+  </script>    
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9593314; 
+var sc_invisible=1; 
+var sc_security="6a049e27"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/9593314/0/6a049e27/1/"
+alt="website statistics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body></html>

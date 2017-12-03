@@ -1,0 +1,121 @@
+body {
+  color: #006;
+  background-color: #eeffbb;
+  border-style: solid;
+  border-width: 1em;
+  border-color: #888888;
+  padding: 15px;
+  margin: 0;
+  height: 100%;
+}
+
+#bannerContainer {
+  background-image: url(../images/bannerCroppedResized.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  /*background-attachment: fixed;*/
+  width: 90%;
+  max-width: 90%;
+  height: 100px;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 450px) and (max-width: 700px) {
+  #bannerContainer {
+    background-image: url(../images/bannerIntermediate.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    width: 100%;
+    max-width: 100%;
+    height: 100px;
+  }  
+}
+
+@media only screen and (min-width: 701px) {
+  #bannerContainer {
+    background-image: url(../images/banner.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    max-width: 100%;
+    height: 100px;
+  }  
+}
+
+    
+    h2 {margin-bottom: 1em;}
+    h4 {margin-top: 0; margin-bottom: 1em;}
+    p  {margin-top: 0;}
+        
+    li {padding: 0; list-style: square; margin-bottom: 0; margin-top: 0;}
+    ul {margin-top: 0; margin-bottom: 0;}
+    br {clear: left;}
+    div.wrapper {margin-top: 0px; margin-bottom: 0px;}
+    
+    hr {color: #039; background-color: #039;}
+    a {color: #039; text-decoration: underline;}
+    a:visited {color:#110;}
+    
+    
+    
+    .Textwrap {
+      float: left;
+      margin: 10px;
+    }
+    
+    div.sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      padding: 5px; 
+    }
+    
+    .profLink {
+      color: #eeffbb;
+      background-color: #006;
+      padding: 5px;
+      z-index: 1;
+    }
+    
+    .menuButton {
+      color: #eeffbb;
+      background-color: #006;
+      width: 200px;
+      padding: 5px;
+      z-index: 1;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      opacity: 1;
+    }    
+    
+/*For Awards Page*/
+    
+    #imageText {
+      width: 100%;
+      font-size: 1em;
+      font-weight: bold;
+    }
+    
+    .left {
+      float: left;
+      width: 30%;
+      margin-right: 20px;
+    }
+    
+    
+    .right {
+      float: left;
+      width: 30%;
+    }
+    
+   
+    .clearColumns {
+      clear: left;
+    }
+    
+
+    

@@ -1,0 +1,118 @@
+<!DOCTYPE html >
+<html lang="en" >
+<head>
+    <title>
+      Pricing Information
+    </title>    
+    <meta charset="utf-8" />
+
+
+
+ <!-- This is where your link tag goes when linking to an external style sheet. -->
+
+<link rel="stylesheet" href="bestpriceblinds.css" type="text/css">
+
+ 
+<!--This is the format you will use when entering JavaScript -->    
+
+<script type="text/javascript" src="pricescripts/definePricePerSqFt.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/defineGridWidths.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/defineGridHeights.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/calculatePriceGrid.js">
+</script>
+
+<script type="text/javascript" src="pricescripts/printPriceGrid.js">
+</script>
+
+</head>
+
+  <body> 
+ <div> 
+<!-- Your XHTML here -->
+<br>
+<br>
+<br>
+<br>
+<script type="text/javascript" src="javascripts/linksToPages.js">
+</script>
+<hr>
+<h2> Blinds Price Charts </h2>
+
+<p>To price your blind:</p>
+<ol>
+<li>Go to the appropriate price grid based on the material you are considering</li>
+<li>Find the first column that has a width greater than or equal to that of your blind</li>
+<li>Go down the column to the first row that has a height greater than or equal to that of your blind</li>
+<li>Note the price</li>
+</ol>
+<p>For example, a wood blind of width 34 and height 51 would be priced by going to the width column of 36, and going down this column to the
+height row of 60, which gives the price of $124.95.
+</p>
+
+<a href="#woodpricing">Wood Blinds</a>&nbsp;&nbsp;<a href="#fauxwoodpricing">Fauxwood Blinds</a>&nbsp;&nbsp;<a href="#aluminumpricing">Aluminum Blinds</a>
+<hr>
+<h2 id="woodpricing">Pricing for Wood Blinds</h2>
+<a href="#woodpricing">Wood Blinds</a>&nbsp;&nbsp;<a href="#fauxwoodpricing">Fauxwood Blinds</a>&nbsp;&nbsp;<a href="#aluminumpricing">Aluminum Blinds</a>
+<script type="text/javascript">
+/* <![CDATA[ */
+
+// your JavaScript instructions will go here
+
+printPriceGrid(woodPerSqFt, gridWidths, gridHeights);
+/* ]]> */
+</script>  
+<hr>
+<h2 id="fauxwoodpricing">Pricing for Fauxwood Blinds</h2>
+<a href="#woodpricing">Wood Blinds</a>&nbsp;&nbsp;<a href="#fauxwoodpricing">Fauxwood Blinds</a>&nbsp;&nbsp;<a href="#aluminumpricing">Aluminum Blinds</a>
+<script type="text/javascript">
+/* <![CDATA[ */
+
+// your JavaScript instructions will go here
+
+printPriceGrid(fauxwoodPerSqFt, gridWidths, gridHeights);
+/* ]]> */
+</script>  
+<hr>
+<h2 id="aluminumpricing">Pricing for Aluminum Blinds</h2>
+<a href="#woodpricing">Wood Blinds</a>&nbsp;&nbsp;<a href="#fauxwoodpricing">Fauxwood Blinds</a>&nbsp;&nbsp;<a href="#aluminumpricing">Aluminum Blinds</a>
+<script type="text/javascript">
+/* <![CDATA[ */
+
+// your JavaScript instructions will go here
+
+printPriceGrid(aluminumPerSqFt, gridWidths, gridHeights);
+/* ]]> */
+</script>  
+
+<br>
+<br>
+<!-- external javascript for validation -->  
+<script type="text/javascript" src="../validation.js">
+</script>    
+
+</div>
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9593314; 
+var sc_invisible=1; 
+var sc_security="6a049e27"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/9593314/0/6a049e27/1/"
+alt="website statistics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+  </body>
+  </html>

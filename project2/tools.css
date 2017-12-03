@@ -1,0 +1,32 @@
+body {
+  color: #039;
+  background-color: #eeff77;
+  background-image: url(images/toolsHeader.jpg);
+  background-repeat: repeat-x;
+  background-size: 10%;
+  }
+
+h1 {
+  color: #039;
+  background-color: #99cc99;
+  margin-bottom: 2ex;
+}
+
+h2,h3,h4 {
+  color: #039;
+  }
+  
+td
+{
+    text-align: left;
+    /* Valid:
+     * baseline, sub, super, top, text-top, middle,
+     * bottom, text-bottom, length, or a value in percentage
+     */
+    vertical-align: text-top;
+}
+
+.vAlignBottom {
+  vertical-align: text-bottom;
+  }
+

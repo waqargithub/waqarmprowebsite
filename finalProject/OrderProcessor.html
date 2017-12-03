@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>Order Processor</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="bestpriceblinds.css" type="text/css" />
+</head>
+<body>
+<p>
+<br />
+<br />
+<br />
+<br />
+<script type="text/javascript" src="javascripts/linksToPages.js">
+</script>
+</p>
+<script type="text/javascript">
+/* <![CDATA[ */
+document.write("<h2>Order Report</h2>");
+document.write("<h3>Thank you for your order!</h3>");
+
+
+var formData = location.search;
+formData = formData.substring(1, formData.length);
+while (formData.indexOf("+") != -1) {
+  formData = formData.replace("+", " ");
+}
+while (formData.indexOf("=") != -1) {
+  formData = formData.replace("=", "&");
+}
+formData = unescape(formData);
+var formArray = formData.split("&");
+document.write("<p>We will send you a confirmation email with the expected ship date within one business day. </p>");
+document.write("<h2>Order Summary</h2>");
+
+
+var windowTreatmentOrdered = "none" ;
+var color = formArray[3];
+
+// identify type of blind
+
+  switch (formArray[1]) {
+    case "woodBlind":
+      windowTreatmentOrdered = "Wood Blind";
+      break;
+    case "fauxwoodBlind":
+      windowTreatmentOrdered = "Fauxwood Blind";
+      break;
+    case "aluminumBlind":
+      windowTreatmentOrdered = "Aluminum Blind";
+      break;
+  }
+
+//extract width of blind, including fraction
+var width = formArray[5];
+var widthFraction = formArray[7];
+
+if (widthFraction != "zero") {
+  switch (widthFraction) {
+    case "oneEighth":
+      widthFraction = "1/8";
+      break;
+    case "oneFourth":
+      widthFraction = "1/4";
+      break;
+    case "threeEighths":
+      widthFraction = "3/8";
+      break;
+    case "oneHalf":
+      widthFraction = "1/2";
+      break;
+    case "fiveEighths":
+      widthFraction = "5/8";
+      break;
+    case "threeFourths":
+      widthFraction = "3/4";
+      break
+    case "sevenEighths":
+      widthFraction = "7/8";
+      break;
+  }
+  width = width+" "+widthFraction;
+}
+
+//extract height of blind, including fraction
+var height = formArray[9];
+var heightFraction = formArray[11];
+
+if (heightFraction != "zero") {
+  switch (heightFraction) {
+    case "oneEighth":
+      heightFraction = "1/8";
+      break;
+    case "oneFourth":
+      heightFraction = "1/4";
+      break;
+    case "threeEighths":
+      heightFraction = "3/8";
+      break;
+    case "oneHalf":
+      heightFraction = "1/2";
+      break;
+    case "fiveEighths":
+      heightFraction = "5/8";
+      break;
+    case "threeFourths":
+      heightFraction = "3/4";
+      break
+    case "sevenEighths":
+      heightFraction = "7/8";
+      break;
+  }
+  height = height+" "+heightFraction;
+}
+
+//extract mount
+var mount = formArray[13];
+
+var optionsOrdered = "";
+
+//extract options ordered
+if (formArray[14] == "windowTreatmentPrice") 
+  optionsOrdered = "none";
+else {
+  if (formArray[15] == "decorativeValance") {
+    optionsOrdered = "Decorative Valance";
+    if (formArray[17] == "routlessSlats")
+      optionsOrdered += ", Routless Slats";
+  }
+  else
+    if (formArray[15] == "routlessSlats")
+      optionsOrdered = "Routless Slats";
+} 
+
+//identify index for window treatment price, define offsets for other prices
+
+var indexForWindowTreatmentPrice = 0;
+for (var i=0; i<formArray.length; i++) {
+  if (formArray[i] == "windowTreatmentPrice") {
+    indexForWindowTreatmentPrice=++i;
+    break;
+  }
+}
+
+var windowTreatmentPrice = indexForWindowTreatmentPrice;
+var optionsPrice = indexForWindowTreatmentPrice + 2;
+var shippingPrice = indexForWindowTreatmentPrice + 4;
+var totalPrice = indexForWindowTreatmentPrice + 6;
+
+
+//Display summary of ordered products and order total
+
+document.write("<table border= 1 px>");
+document.write("<tr>");
+document.write("<th>Item</th>");
+document.write("<th>Amount</th>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>"+windowTreatmentOrdered+". Width: "+width+", Height: "+height+", Color: "+color+", Mount: "+mount+"</td>");
+document.write("<td>"+formArray[windowTreatmentPrice]+"</td>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>Options: "+optionsOrdered+"&nbsp;&nbsp;</td>");
+document.write("<td>"+formArray[optionsPrice]+"</td>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>Shipping</td>");
+document.write("<td>"+formArray[shippingPrice]+"</td>");
+document.write("</tr>");
+document.write("<tr>");
+document.write("<td>Total</td>");
+document.write("<td>"+formArray[totalPrice]+"</td>");
+document.write("</tr>");
+document.write("</table>");
+
+//Determine indices of fields for billing and shipping address, creditcard
+
+var indexForFirstName = 0;
+for (var i=0; i<formArray.length; i++) {
+  if (formArray[i] == "firstNameBilling") {
+    indexForFirstName=++i;
+    break;
+  }
+}
+
+var firstNameBilling = indexForFirstName;
+var lastNameBilling = indexForFirstName + 2;
+var firstNameShipping = indexForFirstName + 4;
+var lastNameShipping = indexForFirstName + 6;
+var addressBilling = indexForFirstName + 8;
+var addressShipping = indexForFirstName + 10;
+var cityBilling = indexForFirstName + 12;
+var stateBilling = indexForFirstName + 14;
+var zipBilling = indexForFirstName + 16;
+var zipExtBilling = indexForFirstName + 18;
+var cityShipping = indexForFirstName + 20;
+var stateShipping = indexForFirstName + 22;
+var zipShipping = indexForFirstName + 24;
+var zipExtShipping = indexForFirstName + 26;
+var cardType = indexForFirstName + 36;
+var last4 = indexForFirstName + 44;
+
+//Identify card type
+
+var creditCard = "";
+   switch (formArray[cardType]) {
+    case "visa":
+      creditCard = "Visa";
+      break;
+    case "mastercard":
+      creditCard = "Mastercard";
+      break;
+    case "americanExpress":
+      creditCard = "American Express";
+      break;
+    case "discover":
+      creditCard = "Discover";
+      break;
+  }
+
+//Display card type and amount charged
+
+document.write("<h3>Amount Charged</h3>");
+document.write(formArray[totalPrice]+" charged to "+creditCard+" ending in "+formArray[last4]);
+
+//Display billing and shipping information
+
+document.write("<table>");
+  document.write("<tr>");
+    document.write("<td>");
+      document.write("<h3>Bill To</h3>");
+      document.write("<p>"+formArray[firstNameBilling]+"&nbsp;"+formArray[lastNameBilling]+"<br />");
+      document.write(formArray[addressBilling]+"<br />");
+      document.write(formArray[cityBilling]+", "+formArray[stateBilling]+" "+formArray[zipBilling]);
+      if (formArray[zipExtBilling] != "")
+        document.write("-"+formArray[zipExtBilling]);
+      document.write("<br />");
+    document.write("</td>");
+    document.write("<td>");
+      document.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+    document.write("</td>");
+    document.write("<td>");
+     document.write("<h3>Ship To</h3>");
+     document.write("<p>"+formArray[firstNameShipping]+"&nbsp;"+formArray[lastNameShipping]+"<br />");
+     document.write(formArray[addressShipping]+"<br />");
+     document.write(formArray[cityShipping]+", "+formArray[stateShipping]+" "+formArray[zipShipping]);
+     if (formArray[zipExtShipping] != "")
+       document.write("-"+formArray[zipExtShipping]);
+     document.write("<br />");
+    document.write("</td>");
+  document.write("</tr>");
+document.write("</table>");
+     
+//Display data-value pairs
+
+document.write("<h2>For Internal Use Only</h2>");
+document.write("<p>The text below is included only for class and grading purposes.</p>");
+
+
+for (var i=0; i < formArray.length; i = i + 2) {
+  document.writeln(i+": "+formArray[i] + "\t" + formArray[i+1] + "<br />");
+}
+/* ]]> */
+</script>
+
+  <!-- external javascript for validation -->  
+  <script type="text/javascript" src="../validation.js">
+  </script>    
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9593314; 
+var sc_invisible=1; 
+var sc_security="6a049e27"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/9593314/0/6a049e27/1/"
+alt="website statistics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body></html>

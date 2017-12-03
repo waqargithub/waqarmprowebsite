@@ -1,0 +1,110 @@
+body {
+  color: #039;
+  background-color: #eeffbb;
+  background-image: url(images/HDWoodmini.png);
+  background-repeat: repeat-x;
+  background-size: 20%;
+  }
+
+h1 {
+  color: #039;
+  background-color: #99cc99;
+  margin-bottom: 2ex;
+}
+
+h2,h3,h4 {
+  color: #039;
+  }
+  
+table {
+  margin-right: auto;
+  margin-bottom: 2ex;
+}
+
+.dataTable { 
+background-color: #039;
+}
+
+.dataTD {
+  font-size: smaller;
+  text-align: center;
+  background: #cccccc;
+  }
+  
+.dataTH {
+  color: black;
+  background: #cccccc;
+  font-size: small;
+  font-weight: bold;
+  text-align: center;
+  }  
+
+.rowHeading {
+  background: #bbbbbb;
+  text-align: left;
+  font-size: small;
+  font-weight: bold;
+  }
+  
+.columnHeading {
+  background: #bbbbbb;
+  text-align: left;
+  font-size: small;
+  font-weight: bold;
+  }  
+
+.widthsHeading {
+  background: #bbbbbb;
+  text-align: center;
+  font-size: small;
+  font-weight: bold;
+  }
+  
+.heightsHeading {
+  background: #bbbbbb;
+  text-align: left;
+  font-size: small;
+  font-weight: bold;
+  }
+  
+.prices {
+  font-size: smaller;
+  text-align: center;
+  background: #cccccc;
+  }
+  
+.priceTable { 
+  background-color: #039;
+  }
+  
+.measuringGuidelinesTable {
+  background-color: #039;
+  }
+  
+.measuringGuidelinesImage {
+  height: 210px;
+  width: 210px; 
+  float: right;
+}
+  
+.colorSwatchImage {
+  float: left;
+  opacity: 0.3;
+ }
+ 
+.bareWindowImage {
+  float: right;
+  }
+  
+.productInfoImage {
+  margin-right: 28px;
+}
+
+.divProductInfoImage {
+   height: 350px; 
+   float: right;
+}
+
+.orderAmountsDescriptors {
+  vertical-align: text-bottom;
+}

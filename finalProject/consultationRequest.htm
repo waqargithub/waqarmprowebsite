@@ -1,0 +1,350 @@
+<!DOCTYPE html >
+<html lang="en" >
+<head>
+  <title>
+    Appointment Form
+  </title>    
+  <meta charset="utf-8" />
+
+
+ <!-- link tag to an external style sheet. -->
+ 
+  <link rel="stylesheet" href="bestpriceblinds.css" type="text/css">
+ 
+
+
+  <script type="text/javascript">
+  /* <![CDATA[ */
+
+ 
+ function checkForNumber(fieldValue) {
+   var numberCheck = isNaN(fieldValue);
+   if (numberCheck==true) {
+      window.alert("You must enter a numerical value!");
+      return false;
+   }
+   else
+     return true;
+ }
+
+ function checkEntry(thisObject, minNoOfCharacters, typeOfCharacters) {
+  var validCharacters = false;
+  if (thisObject.value.length < minNoOfCharacters) {
+    window.alert("Your entry did not have the minimum of "+minNoOfCharacters+" required characters. Please review and enter again.");
+    thisObject.value = "";
+    thisObject.focus();
+  }
+  else {
+    if (typeOfCharacters == "alphabetic") {
+      validCharacters = /[\D]/.test(thisObject.value);
+      if (validCharacters != true) {
+        window.alert("Your entry contained non-alphabetic characters. Please review and enter again.");
+        thisObject.value = "";
+        thisObject.focus();
+      }
+    }
+    else if (typeOfCharacters == "numeric") {
+      validCharacters = /[\d]/.test(thisObject.value);
+      if (validCharacters == false) {
+        window.alert("Your entry contained non-numeric characters. Please review and enter again.");      
+        thisObject.value = "";
+        thisObject.focus();
+      }
+    }
+  }
+ }
+
+ function validateEmail(formObject) {
+  var email = formObject.value;
+  var emailCheck = /^[_\w\-]+(\.[_\w\-]+)*@[\w\-]+(\.[\w\-]+)*(\.[\D]{2,3})$/;
+  /*    if (email.search("@") ==  -1 || email.lastIndexOf(".") == -1) {*/
+  //    if (/@/.test(email) == false || /\....$/.test(email) == false) {           
+  if (emailCheck.test(email) == false)
+     window.alert("The email address you entered does not appear to be valid.");
+  else
+    formObject.value = email.toLowerCase();
+ } 
+
+ function confirmSubmit() {
+
+
+ //Check that all fields are entered for name and address
+
+   if (document.forms[0].firstName.value== "") {
+     window.alert("Please enter your first name.");
+     return false;
+   }
+   if (document.forms[0].lastName.value== "") {
+     window.alert("Please enter your last name.");
+     return false;
+   }
+   if (document.forms[0].address.value== "") {
+     window.alert("Please enter your address.");
+     return false;
+   }
+   if (document.forms[0].city.value== "") {
+     window.alert("Please enter your city.");
+     return false;
+   }
+   if (document.forms[0].state.value== "") {
+     window.alert("Please enter your state.");
+     return false;
+   }
+   if (document.forms[0].state.value.length<2) {
+     window.alert("Please review your entry for state. It is less than two letters.");
+     return false;
+   }   
+   if (document.forms[0].zip.value== "") {
+     window.alert("Please enter your zip.");
+     return false;
+   }
+   if (document.forms[0].zipBilling.value.length<5) {
+     window.alert("Please review your entry for zip code. It is less than 5 digits.");
+     return false;
+   }   
+   if ((document.forms[0].zipExt.value != "") &&(document.forms[0].zipExt.value.length<4)) {
+     window.alert("Please review your entry for zip extension. It is less than 4 digits.");
+     return false;
+   }
+ 
+   //Check that phone and email are entered  
+   if ((document.forms[0].areaPhone.value=="") || (document.forms[0].exchangePhone.value=="")
+         || (document.forms[0].phone.value=="")) {
+         window.alert("The phone number entry is incomplete. Please review.");
+         return false;
+   }
+   if (document.forms[0].userEmail.value=="") {
+         window.alert("Please enter an email address.");
+           return false;
+   }
+
+   //check that a contact method has been selected 
+   var contactMethodSelected = false;
+     for (var i=0; i<document.forms[0].contactMethod.length; ++i) {
+       if (document.forms[0].contactMethod[i].checked == true) {
+         contactMethodSelected = true;
+         break;
+       }
+     }
+   if (contactMethodSelected != true) {
+     window.alert("Please select how you prefer to be contacted.");
+     return false;
+   }
+
+
+   //check that a day has been selected 
+   var daySelected = false;
+     for (var i=0; i<document.forms[0].daysPreferred.length; ++i) {
+       if (document.forms[0].daysPreferred[i].checked == true) {
+         daySelected = true;
+         break;
+       }
+     }
+   if (daySelected != true) {
+     window.alert("Please select your preference for days.");
+     return false;
+   }
+
+   //check that a time has been selected 
+   var timeSelected = false;
+     for (var i=0; i<document.forms[0].timesOfDay.length; ++i) {
+       if (document.forms[0].timesOfDay[i].checked == true) {
+         timeSelected = true;
+         break;
+       }
+     }
+   if (timeSelected != true) {
+     window.alert("Please select your preference for times.");
+     return false;
+   }
+   if (document.forms[0].marketingSource.selectedIndex == 0) {
+     window.alert("Won't you tell us how you heard about us?");
+     return false;
+   }
+     
+ }
+     
+ function confirmReset() {
+   var resetForm = window.confirm("Are you sure you want to reset the form?");
+   return resetForm;
+ }
+     
+
+ /* ]]> */
+ </script>    
+ </head>
+
+<body>
+  <div>
+    <!-- Add lines to make room for header image -->
+    <br>   
+    <br>
+    <br>
+    <br>
+  </div> 
+  <div>
+  <script type="text/javascript" src="javascripts/linksToPages.js">
+  </script>
+  <hr> 
+  <h2>
+    In-home Consultation Request
+  </h2>
+  <p>We not only save you money but we also save you time! You don't need to go anywhere--we will come to you. You are welcome to find other uses for 
+  the time and gas that would otherwise be spent driving to a store, and waiting for someone to help you. And you will be able to see the products
+  and colors right where they will be used. Please fill out the form below to schedule a meeting with one of our consultants. Our staff will
+  contact you to confirm the time for the visit.</p>
+  <div>
+    <img src="images/bareWindow.jpg" height="250" width="250" alt="Bare window" class="bareWindowImage">
+  </div>
+  
+  <!-- Begin form and specify action when submitted. --> 
+  <form action="consultationRequestProcessor.html" method="get"
+  enctype="application/x-www-form-urlencoded" onsubmit="return confirmSubmit();" onreset="return confirmReset();">
+   
+    <hr>
+   
+    <table>
+      <tr>
+        <td colspan="4">
+          <h3>
+              Customer Information
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          First Name
+        </td>
+        <td colspan="2">
+          Last Name
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+      </tr>
+      <tr>
+        <td>
+          <input type="text" name="firstName" size="25">
+        </td>
+        <td colspan="2">
+          <input type="text" name="lastName" size="25">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+      </tr>
+      <tr>
+        <td colspan="3">
+          Address
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+      </tr>                      
+      <tr>
+        <td colspan="3">
+          <input type="text" name="address" size="56">
+        </td>
+        <td>
+          &nbsp;&nbsp;
+        </td>                      
+      </tr>
+      <tr>
+        <td>
+          City
+        </td>
+        <td>
+          State
+        </td>
+        <td colspan="2">
+          Zip
+        </td>
+      </tr>                      
+      <tr>
+        <td>
+          <input type="text" name="city" size="25">
+        </td>
+        <td>
+          <input type="text" name="state" size="2" maxlength="2" onchange="checkEntry(this, 2, 'alphabetic');">
+        </td>
+        <td colspan="2">
+          <input type="text" name="zip" size="5" maxlength="5" onchange="checkEntry(this, 5, 'numeric');">-
+          <input type="text" name="zipExt" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">
+        </td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <td>
+          <p>
+            Phone
+            &nbsp;&nbsp;&nbsp;
+            (<input type="text" name="areaPhone" size="3" maxlength="3" onchange="checkEntry(this, 3, 'numeric');">)
+            <input type="text" name="exchangePhone" size="3" maxlength="3" onchange="checkEntry(this, 3, 'numeric');">-
+            <input type="text" name="phone" size="4" maxlength="4" onchange="checkEntry(this, 4, 'numeric');">
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>Email
+          <input type="email" name="userEmail" onblur="validateEmail(document.forms[0].userEmail)">
+        </td>
+    </table>
+    <h3>How do you prefer to be contacted?</h3>
+    <input type="radio" name="contactMethod" value="phone">Phone
+    <input type="radio" name="contactMethod" value="email">Email
+    <h3>Which times are convenient for you?</h3>
+    <input type="checkbox" name="daysPreferred" value="anyDay">Any of these days
+    <input type="checkbox" name="daysPreferred" value="monday">Monday
+    <input type="checkbox" name="daysPreferred" value="tuesday">Tuesday
+    <input type="checkbox" name="daysPreferred" value="wednesday">Wednesday
+    <input type="checkbox" name="daysPreferred" value="thursday">Thursday
+    <input type="checkbox" name="daysPreferred" value="friday">Friday
+    <input type="checkbox" name="daysPreferred" value="saturday">Saturday
+    <br><hr>
+    <input type="checkbox" name="timesOfDay" value="anyTime">Any of these times            
+    <input type="checkbox" name="timesOfDay" value="mornings">Mornings
+    <input type="checkbox" name="timesOfDay" value="afternoons">Afternoons
+    <input type="checkbox" name="timesOfDay" value="evenings">Evenings
+    <br>
+    <h3>How did you hear about us?</h3>
+    <select name="marketingSource">
+    <option value="default">Please select</option>
+    <option value="internet">Internet search</option>
+    <option value="wordOfMouth">Word of mouth</option>
+    <option value="directMail">Direct mail</option>
+    <option value="van">Saw van</option>
+    <option value="yardSign">Yard Sign</option>
+    <option value="flierOnDoor">Flier on Door</option>
+    <option value="other">Other</option>
+    </select>
+
+    <p><input type="submit" value="Submit Request">&nbsp;
+    <input type="reset"></p>
+  </form>
+  <br>
+  <br>
+  <!-- external javascript for validation -->  
+  <script type="text/javascript" src="../validation.js">
+  </script>    
+
+  </div>
+  <!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9593314; 
+var sc_invisible=1; 
+var sc_security="6a049e27"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="website
+statistics" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/9593314/0/6a049e27/1/"
+alt="website statistics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body>
+</html>

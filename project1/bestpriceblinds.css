@@ -1,0 +1,45 @@
+body {
+  color: #039;
+  background-color: #eeff77;
+  background-image: url(images/HDWoodmini.png);
+  background-repeat: repeat-x;
+  background-size: 20%;
+  }
+
+h1 {
+  color: #039;
+  background-color: #99cc99;
+  margin-bottom: 2ex;
+}
+
+h2,h3,h4 {
+  color: #039;
+  }
+  
+table {
+  margin-right: auto;
+  margin-bottom: 2ex;
+  background-color: #777777;
+}
+
+td {
+  color: black;
+  background: #eeeeee;
+  font-size: smaller;
+  text-align: center;
+  }
+  
+th {
+  color: black;
+  background: #cccccc;
+  font-size: small;
+  font-weight: bold;
+  text-align: center;
+  }  
+
+.rowheading {
+  background: #cccccc;
+  text-align: left;
+  font-size: small;
+  font-weight: bold;
+  }
