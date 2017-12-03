@@ -1,3 +1,7 @@
+/****************************************************************/
+/*Settings shared by all sizes
+/****************************************************************/
+
 * {
   box-sizing: border-box;
 }
@@ -39,33 +43,6 @@
   border-color: #888888;
 }
 
-/* Modal Content */
-.modal-content {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  position: absolute;
-  background-color: #eeffbb;
-  /*margin: auto;*/
-  padding: 0;
-  width: 50%;
-  max-width: 1200px;
-}
-
-@media only screen and (max-width: 700px) {
-.modal-content {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  position: absolute;
-  background-color: #eeffbb;
-  margin: auto;
-  padding: 0;
-  width: 90%;
-  max-width: 1200px;
-}
-}
-
 /* The Close Button */
 .close {
   color: #999;
@@ -89,6 +66,15 @@
 
 .cursor {
   cursor: pointer
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #eeffbb;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
 }
 
 /* Next & previous buttons */
@@ -116,38 +102,32 @@
   border-radius: 3px 0 0 3px;
 }
 
+
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover,
 .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #eeffbb;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
-.numbertextUX {
-  color: #006;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
 img {
   margin-bottom: -4px;
+}
+
+.portraitPic {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 55%;
+}
+
+.landscapePic {
+  width: 100%;  
 }
 
 .caption-container {
   text-align: center;
   vertical-align: middle;
   background-color: #006;
-/*  padding: 1em 1em; */
   color: #eeffbb;
 }
 
@@ -168,6 +148,34 @@ img.hover-shadow {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
 }
 
+/***** Width <450px - PHONE *****/
+
+/* Modal Content  This is for UX*/
+/*.modal-content {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  background-color: #eeffbb;
+  /*margin: auto;*/
+ /* padding: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+}*/
+
+.modal-content {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  background-color: #eeffbb;
+  /*margin: auto;*/
+  padding: 0;
+  width: 90%;
+  max-width: 1200px;
+}
+
 .halfColPic {
   display: block; 
   margin-left: 1em; 
@@ -175,39 +183,230 @@ img.hover-shadow {
   width: 50%;
   }
 
+/*.portraitPicUX {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}*/
+
+/*This is for UX
+#columnContainer {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}*/
+
+/*.numbertextUX {
+  color: #006;
+  font-size: 12px;
+/*  padding: 8px 12px; */
+/*  position: absolute;
+  top: 1em;
+  left: 1%;
+}*/
+
+/* Position the "next button" to the right */
+/*This is for UX
+.next {
+  right: 3%;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev {
+  left: 3%;
+  border-radius: 3px 0 0 3px;  
+} */
+
+/* The Close Button */
+/*This is for UX
+.close {
+  color: #999;
+  position: absolute;
+  top: 0;
+  right: 2%;
+  font-size: 35px;
+  font-weight: bold;
+}*/
+
+
+/***** 450 <= Width <= 700px - TABLET *****/
+
 @media only screen and (min-width: 450px) and (max-width: 700px) {
+  
+ /* This is for UX
+  .modal-content {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    background-color: #eeffbb;
+    margin: auto;
+    padding: 0;
+    width: 100%;
+    max-width: 1200px;
+  }*/
+  
+  .modal-content {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  background-color: #eeffbb;
+  /*margin: auto;*/
+  padding: 0;
+  width: 90%;
+  max-width: 1200px;
+}
+
+/*This is for UX
   .halfColPic {
   display: block; 
   margin-left: 1em; 
   margin-right: auto ;
   width: 35%;
+  }*/
+  
+    .halfColPic {
+  display: block; 
+  margin-left: 1em; 
+  margin-right: auto ;
+  width: 35%;
   }
+  
+/*  .portraitPicUX {
+  display: block; 
+  margin-left: auto; 
+  margin-right: auto ;
+  width: 50%;
+  }*/
+  
+  /*This is for UX
+  #columnContainer {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }*/
+  
+  /*.numbertextUX {
+    color: #006;
+    font-size: 12px;
+  /*  padding: 8px 12px; */
+  /*  position: absolute;
+    top: 1em;
+    left: 20%;
+  }*/
+  
+  /*This is for UX
+  .next {
+    right: 22%;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  .prev {
+    left: 22%;
+    border-radius: 3px 0 0 3px;  
+  }
+  
+  .close {
+  color: #999;
+  position: absolute;
+  top: 0;
+  right: 20%;
+  font-size: 35px;
+  font-weight: bold;
+  } */
+  
 }
 
+/***** Width >= 701px - DESKTOP *****/
+
 @media only screen and (min-width: 701px) {
+  
+ /*This is for UX
+  .modal-content {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    background-color: #eeffbb;
+    /*margin: auto;*/
+  /*  padding: 0;
+    width: 40%;
+    height: 100%;
+    max-width: 1200px;
+  }*/
+  
+  .modal-content {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  background-color: #eeffbb;
+  /*margin: auto;*/
+  padding: 0;
+  width: 50%;
+  max-width: 1200px;
+}
+ 
+ /*This is for UX 
+  .halfColPic {
+    display: block; 
+    margin-left: 1em;
+    width: 25%;
+  }*/
+  
   .halfColPic {
     display: block; 
     margin-left: 1em;
     width: 25%;
   }  
+
+  
+/*  .portraitPicUX {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }*/
+  
+  /*This is for UX
+  #columnContainer {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }*/
+  
+ /* .numbertextUX {
+    color: #006;
+    font-size: 12px;
+  /*  padding: 8px 12px; */
+  /*  position: absolute;
+    top: 1em;
+    left: 20%;
+  }*/
+  
+  /*This is for UX
+  .next {
+    right: 22%;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  .prev {
+    left: 22%;
+    border-radius: 3px 0 0 3px;  
+  }
+  
+  .close {
+  color: #999;
+  position: absolute;
+  top: 0;
+  right: 20%;
+  font-size: 35px;
+  font-weight: bold;
+  }*/
+  
 }
-
-.portraitPic {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 55%;
-}
-
-.portraitPicUX {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 65%;
-}
-
-.landscapePic {
-  width: 100%;  
-}
-
-
