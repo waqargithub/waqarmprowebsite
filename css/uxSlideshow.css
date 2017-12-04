@@ -16,6 +16,16 @@
   clear: both;
 }
 
+.column {
+  float: left;
+  width: 25%;
+}
+
+.halfColumn {
+  float: left;
+  width: 50%;
+}
+
 /* The Modal (background) */
 .modal {
   display: none;
@@ -99,16 +109,6 @@ img.hover-shadow {
 
 .hover-shadow:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
-}
-
-.column {
-  float: left;
-  width: 25%;
-}
-
-.halfColumn {
-  float: left;
-  width: 50%;
 }
 
 /***** Width <450px - PHONE *****/
