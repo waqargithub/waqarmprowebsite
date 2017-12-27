@@ -1,0 +1,3 @@
+[submodule "ticTacToeJS"]
+	path = ticTacToeJS
+	url = https://github.com/waqargithub/ticTacToeJS
