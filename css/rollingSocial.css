@@ -2,26 +2,14 @@ a {
   color: #fff;
   text-decoration: none;
 }
-.me {
-  width: 400px;
-  margin: 90px auto;
-}
-.me p,
-.me h1 {
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-align: center;
-}
-.me p {
-  font-weight: 200;
-}
-.me span {
-  font-weight: bold;
-}
+
 .social {
   position: fixed;
   top: 20px;
+  left: -270px;
 }
+
+/*
 .social ul {
   padding: 0px;
   -webkit-transform: translate(-270px, 0);
@@ -29,12 +17,14 @@ a {
   -ms-transform: translate(-270px, 0);
   -o-transform: translate(-270px, 0);
   transform: translate(-270px, 0);
-}
+} */
+
+
 .social ul li {
   display: block;
   margin: 5px;
   background: rgba(0, 0, 0, 0.36);
-  width: 250px;
+  width: 240px;
   text-align: right;
   padding: 10px;
   -webkit-border-radius: 0 30px 30px 0;
