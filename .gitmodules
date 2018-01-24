@@ -1,3 +1,6 @@
 [submodule "ticTacToeJS"]
 	path = ticTacToeJS
 	url = https://github.com/waqargithub/ticTacToeJS
+[submodule "onlineBankProject"]
+	path = onlineBankProject
+	url = https://github.com/waqargithub/onlineBankProject
