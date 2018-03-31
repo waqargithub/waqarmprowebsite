@@ -10,7 +10,7 @@
         if ( (windowWidth < 450) && (noOfColsRequested > noOfColsPhone) ) {
             noOfCols = noOfColsPhone;
         }
-        else if ( (windowWidth > 450) && (windowWidth <= 700) && (noOfColsRequested > noOfColsTablet) ) {
+        else if ( (windowWidth > 450) && (windowWidth <= 800) && (noOfColsRequested > noOfColsTablet) ) {
             noOfCols = noOfColsTablet;
         }
         else noOfCols = noOfColsRequested;
